@@ -2,7 +2,7 @@ OCH = OCH or {}
 local OCH = OCH
 
 OCH.name     = "AsquartOsseinCageHelper"
-OCH.version  = "1.0.2"
+OCH.version  = "1.1"
 OCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 OCH.active   = false
 
@@ -127,6 +127,7 @@ OCH.settings = {
   -- Trash
   show_boss_carrion_stacks = true,
   block_carrion_synergy = true,
+  hide_addon_version = false,
 
   show_trash_pack_icons = false,
   show_trash_stack_positions = true,
@@ -194,6 +195,9 @@ OCH.data    = {
 
   carrion_shield_synergy_name = GetString(OCH_CarrionShield),
   carrion_shield_synergy_icon = "/esoui/art/icons/u46_tri_bp_refresh.dds",
+
+  -- Colossus
+  colossus_bone_saw = 245273,
 
   -- Deadraised
   deadraiser_spike_cage = 236477,
@@ -842,7 +846,8 @@ function OCH.AddToCCADodgeList()
   if CombatAlertsData == nil then
     return
   end
-  CombatAlertsData.dodge.ids[OCH.data.sinewshot_true_shot] = { -3, 1, true }
+  CombatAlertsData.dodge.ids[OCH.data.colossus_bone_saw] = { -3, 1, false }
+  CombatAlertsData.dodge.ids[OCH.data.sinewshot_true_shot] = { -3, 1, false }
   CombatAlertsData.dodge.ids[OCH.data.osteon_archer_taking_aim] = { -3, 1, true }
 end
 
@@ -904,11 +909,14 @@ function OCH.OnAddonLoaded( event, addonName )
   OCH.savedVariables = ZO_SavedVars:NewAccountWide("AsquartOsseinCageHelperSavedVariables", 1, nil, OCH.settings)
   OCH.RestorePosition()
   OCH.AddonMenu()
-  
+
   OCH.AddToCCADodgeList()
 
   OCH.SetupSynergiesHook()
-  
+
+  OCHStatusLabelAddonName:SetHidden(OCH.savedVariables.hide_addon_version)
+  OCHStatusDivider:SetHidden(OCH.savedVariables.hide_addon_version)
+
 	EVENT_MANAGER:UnregisterForEvent( OCH.name, EVENT_ADD_ON_LOADED )
 	EVENT_MANAGER:RegisterForEvent(OCH.name .. "PlayerActive", EVENT_PLAYER_ACTIVATED,
     OCH.PlayerActivated)

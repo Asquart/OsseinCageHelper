@@ -119,6 +119,7 @@
         "OCH_Kazpian",
         "OCH_AgonizerBomb",
         "SafeAddString",
-        "OCH_LANG"
+        "OCH_LANG",
+        "OCHStatusDivider"
     ]
 }

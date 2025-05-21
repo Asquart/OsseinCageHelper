@@ -106,6 +106,12 @@ function OCH.UpdateTick(gameTimeMs)
   if OCH.status.is_Hall_of_Fleshcraft then
     OCH.SetHallOfFleshcraftIcons()
 
+    if OCH.savedVariables.show_fleshspawn_counter then
+      OCHStatus:SetHidden(false)
+      OCHStatusFleshSpawnCounterLabel:SetHidden(false)
+      OCHStatusFleshSpawnCounterLabelValue:SetHidden(false)
+    end
+
     ------------------------------------ Process channeler damage and update UI------------------------------------------------
     if OCH.savedVariables.show_fleshcraft_portal_percent then
       if OCH.status.initial_channeler_dead then ------------ if initial channeler killed
@@ -167,12 +173,22 @@ function OCH.UpdateTick(gameTimeMs)
     ----------------- portal countdown
     if OCH.savedVariables.show_jynorah_portal_countdown then
       local portalLeft = 0
-      if 0.704 < totalBossPercent and totalBossPercent < 0.8  then
-        portalLeft = (totalBossPercent - 0.704)*100
-      elseif 0.404 < totalBossPercent and totalBossPercent < 0.5 then
-        portalLeft = (totalBossPercent - 0.404)*100
+      if OCH.status.is_hm_boss then
+        if 0.754 < totalBossPercent and totalBossPercent < 0.80  then
+          portalLeft = (totalBossPercent - 0.754)*100
+        elseif 0.354 < totalBossPercent and totalBossPercent < 0.4 then
+          portalLeft = (totalBossPercent - 0.354)*100
+        else
+          portalLeft = 0
+        end
       else
-        portalLeft = 0
+        if 0.704 < totalBossPercent and totalBossPercent < 0.8  then
+          portalLeft = (totalBossPercent - 0.704)*100
+        elseif 0.404 < totalBossPercent and totalBossPercent < 0.5 then
+          portalLeft = (totalBossPercent - 0.404)*100
+        else
+          portalLeft = 0
+        end
       end
 
       if portalLeft > 0 and not OCH.status.jynorah_titanic_clash_ongoing then

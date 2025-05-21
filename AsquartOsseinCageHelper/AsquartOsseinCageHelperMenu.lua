@@ -41,6 +41,17 @@ function OCH.AddonMenu()
 			func = function() OCH.DefaultPosition()  end,
       		warning = "Requires /reloadui for the position to reset",
 		},
+	{
+			type    = "checkbox",
+			name    = "Hide addon version display",
+			default = false,
+			getFunc = function() return OCH.savedVariables.hide_addon_version end,
+			setFunc = function( newValue )
+							OCH.savedVariables.hide_addon_version = newValue
+							OCHStatusDivider:SetHidden(newValue)
+							OCHStatusLabelAddonName:SetHidden(newValue)
+						end,
+		},
     {
 			type    = "checkbox",
 			name    = "Hide welcome text on chat",
