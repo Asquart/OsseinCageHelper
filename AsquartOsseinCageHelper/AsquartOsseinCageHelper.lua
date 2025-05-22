@@ -2,7 +2,7 @@ OCH = OCH or {}
 local OCH = OCH
 
 OCH.name     = "AsquartOsseinCageHelper"
-OCH.version  = "1.1"
+OCH.version  = "1.2"
 OCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 OCH.active   = false
 
@@ -127,6 +127,7 @@ OCH.settings = {
   -- Trash
   show_boss_carrion_stacks = true,
   block_carrion_synergy = true,
+  carrion_synergy_block_time = 5700,
   hide_addon_version = false,
 
   show_trash_pack_icons = false,
@@ -482,6 +483,14 @@ function OCH.CombatState(eventCode, inCombat)
     end
 
     if OCH.status.is_jynorah_and_skorkhif then
+      ----- Idk why buy it seems that OnBossesChanged doesn't set this up properly - so duplicate here
+      local _, maxTargetHP, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+      if maxTargetHP > 37500000 then
+        OCH.status.is_hm_boss = true
+      elseif maxTargetHP < 37250000 then
+        OCH.status.is_normal_boss = true
+      end
+      -- start curse timer
       if OCH.status.is_hm_boss then
         OCH.status.jynorah_next_curse = OCH.status.combat_start_time + OCH.data.jynorah_curse_initial_countdown_hm
       else

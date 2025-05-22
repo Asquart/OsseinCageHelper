@@ -10,7 +10,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       OCH.status.carrion_stacks_data = {}
       if OCH.savedVariables.block_carrion_synergy then
         OCH.status.carrion_shield_blocked = true
-        EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetCarrionBlock", 5700,
+        EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetCarrionBlock", OCH.savedVariables.carrion_synergy_block_time,
             function()
               EVENT_MANAGER:UnregisterForUpdate(OCH.name .. "ResetCarrionBlock")
               OCH.status.carrion_shield_blocked = false

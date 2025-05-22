@@ -73,7 +73,18 @@ function OCH.AddonMenu()
 			default = false,
 			getFunc = function() return OCH.savedVariables.block_carrion_synergy end,
 			setFunc = function( newValue ) OCH.savedVariables.block_carrion_synergy = newValue end,
-			tooltip = "Will block Carrion Shield synergy for you for ~5.7 seconds after anyone in the group uses it or when noone has more than one Caustic Carrion stack"
+			tooltip = "Will block Carrion Shield synergy for you for ~5.7 seconds(by default) after anyone in the group uses it or when noone has more than one Caustic Carrion stack"
+		},
+	{
+		type = "slider",
+		name = "Synergy block time ms",
+		getFunc = function() return OCH.savedVariables.carrion_synergy_block_time end,
+		setFunc = function(value) OCH.savedVariables.carrion_synergy_block_time = value end,
+		min = 1000,
+		max = 8000,
+		default = 5700,
+		step = 100,
+		width = "half",
 		},
 		{
 			type    = "checkbox",
