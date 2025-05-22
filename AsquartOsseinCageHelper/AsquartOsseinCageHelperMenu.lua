@@ -85,13 +85,14 @@ function OCH.AddonMenu()
 		default = 5700,
 		step = 100,
 		width = "half",
+		disabled = function() return not OCH.savedVariables.block_carrion_synergy end
 		},
-		{
-			type    = "checkbox",
-			name    = "Show Carrion stacks during boss fights",
-			default = false,
-			getFunc = function() return OCH.savedVariables.show_boss_carrion_stacks end,
-			setFunc = function( newValue ) OCH.savedVariables.show_boss_carrion_stacks = newValue end,
+	{
+		type    = "checkbox",
+		name    = "Show Carrion stacks during boss fights",
+		default = false,
+		getFunc = function() return OCH.savedVariables.show_boss_carrion_stacks end,
+		setFunc = function( newValue ) OCH.savedVariables.show_boss_carrion_stacks = newValue end,
 		},
     {
       type = "header",
