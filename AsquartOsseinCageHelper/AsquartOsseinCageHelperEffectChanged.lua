@@ -81,9 +81,9 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
       if abilityId == OCH.data.jynorah_blazing_enfeeblement and unitTag == "player" then
         if changeType == EFFECT_RESULT_GAINED then
           OCH.status.jynorah_got_blazing_enfeeblement = true
-          local _, _, isTank = GetPlayerRoles()
-          if OCH.savedVariables.show_jynorah_enfeeblement_swap and not isTank then
-            CombatAlerts.Alert("", "Move to Blue Boss", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          local isDPS, _, _ = GetPlayerRoles()
+          if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
+            CombatAlerts.Alert("", "Move to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
           end
         elseif changeType == EFFECT_RESULT_FADED then
           OCH.status.jynorah_got_blazing_enfeeblement = false
@@ -93,9 +93,9 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
       if abilityId == OCH.data.jynorah_sparkling_enfeeblement and unitTag == "player" then
         if changeType == EFFECT_RESULT_GAINED then
           OCH.status.jynorah_got_sparking_enfeeblement = true
-          local _, _, isTank = GetPlayerRoles()
-          if OCH.savedVariables.show_jynorah_enfeeblement_swap and not isTank then
-            CombatAlerts.Alert("", "Move to Red Boss", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          local isDPS, _, _ = GetPlayerRoles()
+          if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
+            CombatAlerts.Alert("", "Move to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
           end
         elseif changeType == EFFECT_RESULT_FADED then
           OCH.status.jynorah_got_sparking_enfeeblement = false

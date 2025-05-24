@@ -420,7 +420,7 @@ function OCH.AddonMenu()
 				default = true,
 				getFunc = function() return OCH.savedVariables.show_jynorah_enfeeblement_swap   end,
 				setFunc = function(newValue) OCH.savedVariables.show_jynorah_enfeeblement_swap   = newValue end,
-				tooltip = "Shows alert for DDs and Healers what boss they should stack on after getting Enfeeblement from curse"
+				tooltip = "Shows alert for DDs what boss they should stack on after getting Enfeeblement from curse"
 			},
 			{
 				type    = "checkbox",

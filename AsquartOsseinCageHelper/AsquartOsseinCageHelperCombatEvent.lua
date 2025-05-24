@@ -509,7 +509,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
         end
       end
     end
-    
 
     --------------------- Accumulate Valneer Damage
     if OCH.savedVariables.show_jynorah_titan_hp
@@ -571,7 +570,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
                                       end)
     end
 
-    ------------------------- Biting Blaze alert - doesn't work cuz no such ID (where tf did I even get that xD)
+    ------------------------- Biting Blaze alert
 
     if OCH.savedVariables.show_kazpian_curse_alert and OCH.data.kazpian_curse_cast_ids[abilityId] ~= nil and not OCH.status.kazpian_curse_spawned then
       OCH.status.kazpian_curse_spawned = true
