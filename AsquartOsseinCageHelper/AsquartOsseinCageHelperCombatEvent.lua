@@ -434,7 +434,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       ----------------------- Reflective Scales alerts
       if not OCH.status.reflective_scales_valneer_playing and abilityId == OCH.data.reflective_scales_valneer and targetType == COMBAT_UNIT_TYPE_PLAYER then
         OCH.status.reflective_scales_valneer_playing = true
-        CombatAlerts.Alert(nil, "Reflective Scales", 0xFF5733D9, nil, hitValue)
+        CombatAlerts.Alert(nil, "Reflective Scales", 0xFF5733D9, nil, 2400)
         LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetReflectValneer", 2500,
                                     function()
@@ -445,7 +445,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
   
       if not OCH.status.reflective_scales_myrinax_playing and abilityId == OCH.data.reflective_scales_myrinax and targetType == COMBAT_UNIT_TYPE_PLAYER then
         OCH.status.reflective_scales_myrinax_playing = true
-        CombatAlerts.Alert(nil, "Reflective Scales", 0x3399FFD9, nil, hitValue)
+        CombatAlerts.Alert(nil, "Reflective Scales", 0x3399FFD9, nil, 2400)
         LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetReflectMyrinax", 2500,
                                     function()
