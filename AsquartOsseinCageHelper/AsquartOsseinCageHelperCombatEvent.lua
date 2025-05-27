@@ -409,7 +409,11 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       end
 
       -------- start curse countdows
-      OCH.status.jynorah_next_curse = GetGameTimeSeconds() + OCH.data.jynorah_curse_initial_countdown
+      local curseCountdown = OCH.data.jynorah_curse_initial_countdown
+      if OCH.status.is_hm_boss then
+        curseCountdown = OCH.data.jynorah_curse_initial_countdown_hm
+      end
+      OCH.status.jynorah_next_curse = GetGameTimeSeconds() + curseCountdown
       -------- restore curse labels
       if OCH.savedVariables.show_jynorah_curse_timer then
         OCHStatusJynorahCurseTimerLabelValue:SetHidden(false)

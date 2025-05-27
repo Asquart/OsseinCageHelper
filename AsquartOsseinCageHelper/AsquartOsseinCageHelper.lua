@@ -2,7 +2,7 @@ OCH = OCH or {}
 local OCH = OCH
 
 OCH.name     = "AsquartOsseinCageHelper"
-OCH.version  = "1.5"
+OCH.version  = "1.5.1"
 OCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 OCH.active   = false
 
