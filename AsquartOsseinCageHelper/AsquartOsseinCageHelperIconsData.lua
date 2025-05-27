@@ -31,7 +31,7 @@ OCH.icons_data = {
     {164319,38013,172839}, -- 3.7
   },
 
-  num_pack_coords = 25,
+  num_pack_coords = 24,
 
   trash_pack_left_portal_positions =
     {{70610,30037,140424}, -- 2.2 
@@ -187,52 +187,52 @@ OCH.icons_data = {
   {216617,32950,74932}}, -- exit location
 
   jynorah_blue_boss_positions =
-  {{104065,26153,128819}, -- entrance pos
-  {103749,26153,130970}}, -- exit pos
+    {{104065,26153,128819}, -- entrance pos
+    {103904,26153,131555}}, -- exit pos
 
   jynorah_red_boss_positions =
-  {{105116,26153,128913}, -- entrance pos
-  {104806,26153,131009}}, -- exit pos
+    {{105128,26153,129011}, -- entrance pos
+    {104982,26153,131490}}, -- exit pos
 
   jynorah_blue_healer_positions =
-  {{104399,26153,128117}, -- entrance pos
-  {104048,26153,131680}}, -- exit pos
+    {{104399,26153,128117}, -- entrance pos
+    {104153,26153,132292}}, -- exit pos
 
   jynorah_red_healer_positions =
-  {{104762,26153,128176}, -- entrance pos
-  {104452,26153,131669}}, -- exit pos
+    {{104855,26153,128229}, -- entrance pos
+    {104619,26153,132234}}, -- exit pos
 
   jynorah_blue_dd1_positions =
-  {{103692,26164,128231}, -- entrance pos
-  {103389,26153,131445}}, -- exit pos
+    {{103623,26164,128208}, -- entrance pos
+    {103393,26142,132110}}, -- exit pos
 
   jynorah_blue_dd2_positions =
-  {{103758,26164,127747}, -- entrance pos
-  {103363,26153,131869}}, -- exit pos
+    {{103727,26164,127719}, -- entrance pos
+    {103439,26142,132608}}, -- exit pos
 
   jynorah_blue_dd3_positions =
-  {{104093,26153,128303}, -- entrance pos
-  {103754,26154,131454}}, -- exit pos
+    {{104035,26153,128336}, -- entrance pos
+    {103817,26153,132031}}, -- exit pos
 
   jynorah_blue_dd4_positions =
-  {{104159,26153,127817}, -- entrance pos
-  {103736,26153,131889}}, -- exit pos
+    {{104143,26153,127776}, -- entrance pos
+    {103858,26153,132600}}, -- exit pos
 
   jynorah_red_dd1_positions =
-  {{105438,26153,128482}, -- entrance pos
-  {105101,26153,131433}}, -- exit pos
+    {{105540,26153,128594}, -- entrance pos
+    {105342,26153,131952}}, -- exit pos
 
   jynorah_red_dd2_positions =
-  {{105465,26154,128040}, -- entrance pos
-  {105116,26154,131896}}, -- exit pos
+    {{105614,26153,128152}, -- entrance pos
+    {105363,26153,132400}}, -- exit pos
 
   jynorah_red_dd3_positions =
-  {{105037,26154,128450}, -- entrance pos
-  {104732,26153,131429}}, -- exit pos
+    {{105129,26153,128558}, -- entrance pos
+    {104930,26153,131940}}, -- exit pos
 
   jynorah_red_dd4_positions =
-  {{105102,26153,128006}, -- entrance pos
-  {104734,26154,131899}}, -- exit pos
+    {{105223,26153,128014}, -- entrance pos
+    {104959,26153,132491}}, -- exit pos
 
   kazpian_entrance_stack_pos = {50846,35550,193365},
   kazpian_entrance_left_slayer_pos = {51170,35550,192760},

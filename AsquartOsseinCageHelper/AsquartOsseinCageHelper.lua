@@ -2,7 +2,7 @@ OCH = OCH or {}
 local OCH = OCH
 
 OCH.name     = "AsquartOsseinCageHelper"
-OCH.version  = "1.3"
+OCH.version  = "1.5"
 OCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 OCH.active   = false
 
@@ -25,6 +25,7 @@ OCH.status = {
   carrion_stacks_data = {},
   carrion_shield_blocked = false,
   carrion_stacks_num = 0,
+  origQueueMessage = nil,
 
   -- Trash
   trash_numbers_enabled = false,
@@ -35,6 +36,8 @@ OCH.status = {
   trash_slayer_icons = {},
   abductor_spawned = false,
   abductor_notification_played = false,
+  life_drain_alert_id = nil,
+  corvid_swarm_alert_id = nil,
 
   -- Mini bosses
   mini_bosses_markers_enabled = false,
@@ -76,6 +79,7 @@ OCH.status = {
   jynorah_curse_ongoing = false,
   jynorah_got_blazing_enfeeblement = false,
   jynorah_got_sparking_enfeeblement = false,
+  enfeeblement_swapped_while_dead = false,
   reflective_scales_valneer_playing = false,
   reflective_scales_myrinax_playing = false,
   blazing_atronachs_alive = {},
@@ -138,6 +142,7 @@ OCH.settings = {
   show_deadraiser_spectral_revenant = true,
   show_osteon_archer_taking_aim = true,
   show_soul_devourer_detonate_soul = true,
+  show_soul_devourer_life_drain = true,
   show_carrion_reaper_corvid_swarm = true,
   show_channeler_heavy_alert = true,
   show_abduct_cast_alert = true,
@@ -158,7 +163,6 @@ OCH.settings = {
   show_fleshspawn_counter = true,
   show_harvester_aggro = true,
   show_fleshcraft_portal_percent = true,
-  show_colony_collapse = true,
   show_daedroth_spawn = true,
 
   -- Jynorah and Skorkhif
@@ -215,9 +219,11 @@ OCH.data    = {
 
   -- Tormented Soul Devourer
   soul_devourer_detonate_soul_debuff = 236778,
+  soul_devourer_life_drain_debuff = 236751,
 
   -- Tormented Carrion Reaper
-  carrion_reaper_corvid_swarm = 236947,
+  carrion_reaper_corvid_swarm_debuff = 236947,
+  carrion_reaper_corvid_swarm_cast = 236940,
 
   -- Dreadful abductor
   dreadful_abductor_name = GetString(OCH_Abductor),
@@ -502,6 +508,7 @@ function OCH.CombatState(eventCode, inCombat)
       OCH.status.jynorah_titanic_clash_just_ended = false
       OCH.status.jynorah_got_blazing_enfeeblement = false
       OCH.status.jynorah_got_sparking_enfeeblement = false
+      OCH.status.enfeeblement_swapped_while_dead = false
       OCH.status.reflective_scales_myrinax_playing = false
       OCH.status.reflective_scales_valneer_playing = false
       OCH.status.blazing_atronachs_alive = {}
@@ -510,12 +517,13 @@ function OCH.CombatState(eventCode, inCombat)
       OCH.status.jynorah_sparking_surge_stacks = 0
       OCH.status.valneer_id = nil
       OCH.status.myrinax_id = nil
-      local titanHP = OCH.GetTitanHP()
-      OCH.status.current_myrinax_hp = titanHP
-      OCH.status.current_valneer_hp = titanHP
+  
+      OCH.status.titan_max_hp = OCH.GetTitanHP()
+      OCH.status.current_myrinax_hp = OCH.status.titan_max_hp
+      OCH.status.current_valneer_hp = OCH.status.titan_max_hp
       OCH.status.current_jyronah_percent = 1
       OCH.status.current_skorknif_percent = 1
-      OCH.status.titan_max_hp = titanHP
+      
     end
 
     if OCH.status.is_kazpian then
@@ -530,6 +538,11 @@ function OCH.CombatState(eventCode, inCombat)
   else
     OCH.ClearUIOutOfCombat()
     OCH.status.abductor_spawned = false
+    if OCH.status.life_drain_alert_id ~= nil then
+      CombatAlerts.DisableBanner(OCH.status.life_drain_alert_id)
+    end
+    OCH.status.corvid_swarm_alert_id = nil
+    OCH.status.life_drain_alert_id = nil
     OCH.status.abductor_notification_played = false
     OCH.status.cast_alert_ids = {}
     OCH.status.fleshspawns_alive = {}
@@ -679,18 +692,21 @@ function OCH.BossesChanged()
     OCHStatusValneerHpCounterLabel:SetHidden(not OCH.savedVariables.show_jynorah_titan_hp or OCH.status.is_normal_boss)
     -- Skorknif HP counter
     OCHStatusMyrinaxHpCounterLabel:SetHidden(not OCH.savedVariables.show_jynorah_titan_hp or OCH.status.is_normal_boss)
+    -- Reset curse countdows text
+    OCHStatusJynorahCurseTimerLabelValue:SetText("Pending")
 
     OCH.status.jynorah_titanic_clash_ongoing = false
     OCH.status.jynorah_curse_ongoing = false
-    OCH.status.current_myrinax_hp = OCH.GetTitanHP()
-    OCH.status.current_valneer_hp = OCH.GetTitanHP()
     OCH.status.titan_max_hp = OCH.GetTitanHP()
+    OCH.status.current_myrinax_hp = OCH.status.titan_max_hp
+    OCH.status.current_valneer_hp = OCH.status.titan_max_hp
     OCH.status.jynorah_titanic_clash_just_started = false
     OCH.status.jynorah_titanic_clash_just_ended = false
     OCH.status.reflective_scales_myrinax_playing = false
     OCH.status.reflective_scales_valneer_playing = false
     OCH.status.jynorah_got_blazing_enfeeblement = false
     OCH.status.jynorah_got_sparking_enfeeblement = false
+    OCH.status.enfeeblement_swapped_while_dead = false
     OCH.status.blazing_atronachs_alive = {}
     OCH.status.sparking_atronachs_alive = {}
     OCH.status.jynorah_blazing_surge_stacks = 0
@@ -851,13 +867,70 @@ function OCH.AchievementAwarded(_, _, _, id, _)
   end
 end
 
+function OCH.OnDifficultyChanged()
+  local _ , maxTargetHP, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+  if OCH.status.is_Hall_of_Fleshcraft then
+    if maxTargetHP > 6800000 then
+      OCH.status.is_hm_boss = true
+    elseif maxTargetHP < 6700000 then
+      OCH.status.is_normal_boss = true
+    end
+    OCH.status.current_channeler_hp = OCH.GetChannelerHP()
+    OCH.status.current_channeler_max_hp = OCH.GetChannelerHP()
+  end
+
+  if OCH.status.is_jynorah_and_skorkhif then
+    if maxTargetHP > 37500000 then
+      OCH.status.is_hm_boss = true
+      OCH.SetJynorahIcons()
+    elseif maxTargetHP < 37250000 then
+      OCH.status.is_normal_boss = true
+    else
+      OCH.status.is_hm_boss = false
+      OCH.HideJynorahCurseIcons()
+    end
+    OCH.status.titan_max_hp = OCH.GetTitanHP()
+    OCH.status.current_myrinax_hp = OCH.status.titan_max_hp
+    OCH.status.current_valneer_hp = OCH.status.titan_max_hp
+  end
+
+  if OCH.status.is_kazpian then
+    if maxTargetHP > 78000000 then
+      OCH.status.is_hm_boss = true
+    end
+  end
+end
+
+function OCH.OnResurrectResult(eventCode, targetCharacterName, result, targetDisplayName)
+  -- Show alert which boss to move to on being ressurected
+  if not OCH.status.is_jynorah_and_skorkhif or not OCH.status.is_hm_boss or not OCH.status.inCombat then
+    return
+  end
+  local isPlayer = targetDisplayName == GetDisplayName()
+  local isDPS, _, _ = GetPlayerRoles()
+  if isPlayer then
+    -- Reset enfeeblement swap while dead functionality 
+    OCH.status.enfeeblement_swapped_while_dead = false
+
+    if not OCH.status.jynorah_titanic_clash_ongoing and isDPS and OCH.savedVariables.show_jynorah_enfeeblement_swap and result == RESURRECT_RESULT_SUCCESS then
+    if OCH.status.jynorah_got_blazing_enfeeblement then
+      CombatAlerts.Alert("", "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+    elseif OCH.status.jynorah_got_sparking_enfeeblement then
+      CombatAlerts.Alert("", "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+    end
+  end
+  end
+end
+
 function OCH.AddToCCADodgeList()
   if CombatAlertsData == nil then
     return
   end
   CombatAlertsData.dodge.ids[OCH.data.colossus_bone_saw] = { -3, 1, false }
-  CombatAlertsData.dodge.ids[OCH.data.sinewshot_true_shot] = { -3, 1, false }
-  CombatAlertsData.dodge.ids[OCH.data.osteon_archer_taking_aim] = { -3, 1, true }
+  if OCH.savedVariables.show_osteon_archer_taking_aim then
+    CombatAlertsData.dodge.ids[OCH.data.sinewshot_true_shot] = { -3, 1, true }
+    CombatAlertsData.dodge.ids[OCH.data.osteon_archer_taking_aim] = { -3, 1, true }
+  end
 end
 
 function OCH.PlayerActivated()
@@ -902,9 +975,29 @@ function OCH.PlayerActivated()
   EVENT_MANAGER:RegisterForEvent(OCH.name .. "DeathState", EVENT_UNIT_DEATH_STATE_CHANGED , OCH.DeathState)
 
   -- Achievement awarded
-  EVENT_MANAGER:UnregisterForEvent(OCH.name .. "AchievementAwarded", EVENT_ACHIEVEMENT_AWARDED , OCH.DeathState)
-  EVENT_MANAGER:RegisterForEvent(OCH.name .. "AchievementAwarded", EVENT_ACHIEVEMENT_AWARDED , OCH.DeathState)
-  
+  EVENT_MANAGER:UnregisterForEvent(OCH.name .. "AchievementAwarded", EVENT_ACHIEVEMENT_AWARDED , OCH.AchievementAwarded)
+  EVENT_MANAGER:RegisterForEvent(OCH.name .. "AchievementAwarded", EVENT_ACHIEVEMENT_AWARDED , OCH.AchievementAwarded)
+
+  -- Ressurect result
+  EVENT_MANAGER:UnregisterForEvent(OCH.name .. "RessurectResult", EVENT_RESURRECT_RESULT , OCH.OnResurrectResult)
+  EVENT_MANAGER:RegisterForEvent(OCH.name .. "RessurectResult", EVENT_RESURRECT_RESULT, OCH.OnResurrectResult)
+
+    -- Hook into CSA display to get difficulty changed event
+  OCH.status.origQueueMessage = CENTER_SCREEN_ANNOUNCE.QueueMessage
+  CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
+      -- Call this a second later, because sometimes the health hasn't changed yet
+      EVENT_MANAGER:RegisterForUpdate(OCH.name .. "OnDificultyChanged", 1000,
+                                    function()
+                                      EVENT_MANAGER:UnregisterForUpdate(OCH.name .. "OnDificultyChanged")
+                                      OCH.OnDifficultyChanged()
+                                    end)
+      return OCH.status.origQueueMessage(s, messageParams)
+  end
+
+  -- Trigger initial "changes," in case a reload was done while at Lokk
+  OCH.BossesChanged()
+  OCH.OnDifficultyChanged()
+
   -- Ticks
   EVENT_MANAGER:RegisterForUpdate(OCH.name.."UpdateTick", 
     1000/10, function(gameTimeMs) OCH.UpdateTick(gameTimeMs) end)

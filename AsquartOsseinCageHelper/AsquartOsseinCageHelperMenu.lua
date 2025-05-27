@@ -163,8 +163,9 @@ function OCH.AddonMenu()
 		type    = "checkbox",
 		name    = "Archers Taking Aim alert",
 		default = true,
-		getFunc = function() return OCH.savedVariables.show_deadraiser_spectral_revenant  end,
-		setFunc = function(newValue) OCH.savedVariables.show_deadraiser_spectral_revenant  = newValue  end,
+		getFunc = function() return OCH.savedVariables.show_osteon_archer_taking_aim  end,
+		setFunc = function(newValue) OCH.savedVariables.show_osteon_archer_taking_aim  = newValue  end,
+		warning = "Requires /reloadui for changes to be applied"
 		},
 	{
 		type    = "checkbox",
@@ -185,16 +186,24 @@ function OCH.AddonMenu()
 		type    = "checkbox",
 		name    = "Show Soul Devourer Detonate Soul alert",
 		default = true,
-		getFunc = function() return OCH.savedVariables.show_deadraiser_spectral_revenant  end,
-		setFunc = function(newValue) OCH.savedVariables.show_deadraiser_spectral_revenant  = newValue  end,
+		getFunc = function() return OCH.savedVariables.show_soul_devourer_detonate_soul  end,
+		setFunc = function(newValue) OCH.savedVariables.show_soul_devourer_detonate_soul  = newValue  end,
+		tooltip = "Shows alert when you get Detonate Soul AOE"
+		},
+	{
+		type    = "checkbox",
+		name    = "Show Soul Devourer Life Drain alert",
+		default = true,
+		getFunc = function() return OCH.savedVariables.show_soul_devourer_life_drain  end,
+		setFunc = function(newValue) OCH.savedVariables.show_soul_devourer_life_drain  = newValue  end,
 		tooltip = "Shows alert when you get Detonate Soul AOE"
 		},
 	{
 		type    = "checkbox",
 		name    = "Show Carrion Reaper Corvid Swarm alert",
 		default = true,
-		getFunc = function() return OCH.savedVariables.show_deadraiser_spectral_revenant  end,
-		setFunc = function(newValue) OCH.savedVariables.show_deadraiser_spectral_revenant  = newValue  end,
+		getFunc = function() return OCH.savedVariables.show_carrion_reaper_corvid_swarm  end,
+		setFunc = function(newValue) OCH.savedVariables.show_carrion_reaper_corvid_swarm  = newValue  end,
 		tooltip = "Shows alert when you step into Corvid Swarm AOE"
 		},
 	{
@@ -420,7 +429,8 @@ function OCH.AddonMenu()
 				default = true,
 				getFunc = function() return OCH.savedVariables.show_jynorah_enfeeblement_swap   end,
 				setFunc = function(newValue) OCH.savedVariables.show_jynorah_enfeeblement_swap   = newValue end,
-				tooltip = "Shows alert for DDs what boss they should stack on after getting Enfeeblement from curse"
+				tooltip = "Shows alert for DDs what boss they should stack on after getting curse/being ressurected/after Titanic Clash ends",
+				warning = "WILL NOT display swap alert if player is dead when the first curse ends"
 			},
 			{
 				type    = "checkbox",
@@ -520,7 +530,8 @@ function OCH.AddonMenu()
 			default = true,
 			getFunc = function() return OCH.savedVariables.show_kazpian_frenzy_timer   end,
 			setFunc = function(newValue) OCH.savedVariables.show_kazpian_frenzy_timer   = newValue  end,
-			tooltip = "A simple countdown for tanks after Kazpian's Frenzy mechanic to swap. Mostly suitable only for pug groups witch no voice communication"
+			tooltip = "A simple countdown for tanks after Kazpian's Frenzy mechanic to swap. Mostly suitable only for pug groups witch no voice communication",
+			disabled = function() return not OCH.savedVariables.show_kazpian_frenzy_alert end
 		},
 	}
 

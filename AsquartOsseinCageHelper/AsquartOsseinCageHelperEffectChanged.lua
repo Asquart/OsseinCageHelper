@@ -3,6 +3,7 @@ local OCH = OCH
 
 function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTag, beginTime, endTime, stackCount, iconName, buffType, effectType, abilityType, statusEffectType, unitName, unitId, abilityId, sourceType )
   OCH.IdentifyUnit(unitTag, unitName, unitId)
+  local isDPS, _, isTank = GetPlayerRoles()
 
   --------------- Trash alerts
   if changeType == EFFECT_RESULT_GAINED and unitTag == "player" and abilityId == OCH.data.deadraiser_cursed_terrain_debuff_id and OCH.savedVariables.show_deadraiser_cursed_terrain then
@@ -26,13 +27,24 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
     OCHPurpleAlert:SetHidden(true)
   end
 
-  if changeType == EFFECT_RESULT_GAINED and abilityId == OCH.data.carrion_reaper_corvid_swarm and OCH.savedVariables.show_carrion_reaper_corvid_swarm then
+  if unitTag == "player" and abilityId == OCH.data.soul_devourer_life_drain_debuff and OCH.savedVariables.show_soul_devourer_life_drain then
+    if changeType == EFFECT_RESULT_GAINED then
+      if OCH.status.life_drain_alert_id == nil then
+        OCH.status.life_drain_alert_id = CombatAlerts.Alert("", "Got Life Drain, cleanse!", 0x14FEFFFF, SOUNDS.DUEL_START, 10000)
+      end
+    elseif changeType == EFFECT_RESULT_FADED then
+      CombatAlerts.DisableBanner(OCH.status.life_drain_alert_id)
+      OCH.status.life_drain_alert_id = nil
+    end
+  end
+
+  if changeType == EFFECT_RESULT_GAINED and abilityId == OCH.data.carrion_reaper_corvid_swarm_debuff and OCH.savedVariables.show_carrion_reaper_corvid_swarm then
     OCHPurpleAlert:SetHidden(false)
     OCHPurpleAlertLabel:SetHidden(false)
     OCHPurpleAlertLabel:SetText("Corvid Swarm !")
   end
 
-  if changeType == EFFECT_RESULT_FADED and abilityId == OCH.data.carrion_reaper_corvid_swarm then
+  if changeType == EFFECT_RESULT_FADED and abilityId == OCH.data.carrion_reaper_corvid_swarm_debuff then
     OCHPurpleAlert:SetHidden(true)
   end
 
@@ -58,6 +70,13 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
         OCH.status.channelers_alive[unitId] = OCH.GetChannelerHP()
       end
     end
+    ------------- same for daedroths
+    if OCH.savedVariables.show_daedroth_spawn and isTank and string.match(unitName, OCH.data.daedroth_name) ~= nil then
+      if OCH.status.spawned_daedroths[unitId] == nil then
+        OCH.status.spawned_daedroths[unitId] = true
+        CombatAlerts.Alert("", "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      end
+    end
   end
 
   if OCH.status.is_jynorah_and_skorkhif then
@@ -76,29 +95,67 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
       end
     end
 
+    ----------- Gather blazing/sparking atronachs
+    if OCH.savedVariables.show_jynorah_seeking_surge_alert and not OCH.status.jynorah_titanic_clash_ongoing then
+      if string.match(unitName, OCH.data.jynorah_blazing_atronach_name) then
+        if OCH.status.blazing_atronachs_alive[unitId] == nil then
+          OCH.status.blazing_atronachs_alive[unitId] = true
+        end
+      end
+      if string.match(unitName, OCH.data.jynorah_sparking_atronach_name) then
+        if OCH.status.sparking_atronachs_alive[unitId] == nil then
+          OCH.status.sparking_atronachs_alive[unitId] = true
+        end
+      end
+    end
+
     if OCH.status.is_hm_boss then
       ---------------------------- Enfeeblement debuff gained & boss swap alert
-      if abilityId == OCH.data.jynorah_blazing_enfeeblement and unitTag == "player" then
+      if abilityId == OCH.data.jynorah_blazing_enfeeblement then
         if changeType == EFFECT_RESULT_GAINED then
-          OCH.status.jynorah_got_blazing_enfeeblement = true
-          local isDPS, _, _ = GetPlayerRoles()
-          if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
-            CombatAlerts.Alert("", "Move to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          -- If player gets the debuff
+          if unitTag == "player" then
+            OCH.status.jynorah_got_blazing_enfeeblement = true
+            OCH.status.jynorah_got_sparking_enfeeblement = false
+            if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
+              CombatAlerts.Alert("", "Move to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+            end
+          -- If someone else gets enfeeblement but player is a DD and is dead - swap the color so an appropriate alert will spawn when ressurected
+          elseif not OCH.status.enfeeblement_swapped_while_dead and isDPS and IsUnitDead("player") then
+            if OCH.status.jynorah_got_blazing_enfeeblement then
+              OCH.status.jynorah_got_blazing_enfeeblement = false
+              OCH.status.jynorah_got_sparking_enfeeblement = true
+              OCH.status.enfeeblement_swapped_while_dead = true
+            elseif OCH.status.jynorah_got_sparking_enfeeblement then
+              OCH.status.jynorah_got_sparking_enfeeblement = false
+              OCH.status.jynorah_got_blazing_enfeeblement = true
+              OCH.status.enfeeblement_swapped_while_dead = true
+            end
           end
-        elseif changeType == EFFECT_RESULT_FADED then
-          OCH.status.jynorah_got_blazing_enfeeblement = false
         end
       end
 
-      if abilityId == OCH.data.jynorah_sparkling_enfeeblement and unitTag == "player" then
+      if abilityId == OCH.data.jynorah_sparkling_enfeeblement then
         if changeType == EFFECT_RESULT_GAINED then
-          OCH.status.jynorah_got_sparking_enfeeblement = true
-          local isDPS, _, _ = GetPlayerRoles()
-          if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
-            CombatAlerts.Alert("", "Move to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          -- If player gets the debuff
+          if unitTag == "player" then
+            OCH.status.jynorah_got_sparking_enfeeblement = true
+            OCH.status.jynorah_got_blazing_enfeeblement = false
+            if OCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
+              CombatAlerts.Alert("", "Move to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+            end
+          -- If someone else gets enfeeblement but player is a DD and is dead - swap the color so an appropriate alert will spawn when ressurected
+          elseif not OCH.status.enfeeblement_swapped_while_dead and isDPS and IsUnitDead("player") then
+            if OCH.status.jynorah_got_blazing_enfeeblement then
+              OCH.status.jynorah_got_blazing_enfeeblement = false
+              OCH.status.jynorah_got_sparking_enfeeblement = true
+              OCH.status.enfeeblement_swapped_while_dead = true
+            elseif OCH.status.jynorah_got_sparking_enfeeblement then
+              OCH.status.jynorah_got_sparking_enfeeblement = false
+              OCH.status.jynorah_got_blazing_enfeeblement = true
+              OCH.status.enfeeblement_swapped_while_dead = true
+            end
           end
-        elseif changeType == EFFECT_RESULT_FADED then
-          OCH.status.jynorah_got_sparking_enfeeblement = false
         end
       end
       

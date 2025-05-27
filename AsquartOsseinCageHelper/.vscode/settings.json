@@ -120,6 +120,12 @@
         "OCH_AgonizerBomb",
         "SafeAddString",
         "OCH_LANG",
-        "OCHStatusDivider"
+        "OCHStatusDivider",
+        "EVENT_RESURRECT_RESULT",
+        "GetDisplayName",
+        "RESURRECT_RESULT_SUCCESS",
+        "IsUnitDead",
+        "EVENT_POWER_UPDATE",
+        "EVENT_VETERAN_DIFFICULTY_CHANGED"
     ]
 }

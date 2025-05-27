@@ -5,6 +5,8 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
 
   local isDPS, isHeal, isTank = GetPlayerRoles()
   
+  --d(abilityName .. " " .. tostring(abilityId))
+
     -------------------- Caustic carrion purge
     if result == ACTION_RESULT_EFFECT_GAINED and OCH.data.carrion_shield_cast_ids[abilityId] then
       OCH.status.carrion_stacks_data = {}
@@ -17,8 +19,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
             end)
       end
     end
-
-    --d(abilityName .. " " .. tostring(abilityId))
 
     -------------------- Remove dead people from carrion tracking
     if OCH.savedVariables.show_boss_carrion_stacks and (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) and OCH.status.carrion_stacks_data[targetUnitId] ~= nil then
@@ -70,6 +70,18 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       PlaySound(SOUNDS.DUEL_START)
     end
     CombatAlerts.AlertCast(abilityId, "Heavy Strike" , 1400, { -2, 2 } )
+  end
+
+  if OCH.savedVariables.show_carrion_reaper_corvid_swarm and abilityId == OCH.data.carrion_reaper_corvid_swarm_cast and result == ACTION_RESULT_EFFECT_GAINED and targetType == COMBAT_UNIT_TYPE_PLAYER then
+    if OCH.status.corvid_swarm_alert_id == nil then
+      PlaySound(SOUNDS.DUEL_START)
+      OCH.status.corvid_swarm_alert_id = CombatAlerts.AlertCast(abilityId, "Swarm on you, kite!" , 3000, { -3, 1, false } )
+      EVENT_MANAGER:RegisterForUpdate(OCH.name .. "CorvidSwarmAlertRemogved", 2000,
+                                    function()
+                                    EVENT_MANAGER:UnregisterForUpdate(OCH.name .. "CorvidSwarmAlertRemogved")
+                                    OCH.status.corvid_swarm_alert_id = nil
+                                  end)
+    end
   end
 
   ------------------------------- Abductor alerts
@@ -209,13 +221,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
     end
     
     ------------- gather daedroths
-    if OCH.savedVariables.show_daedroth_spawn and string.match(sourceName, OCH.data.daedroth_name) ~= nil then
-      if OCH.status.spawned_daedroths[sourceUnitId] == nil and isTank then
-        OCH.status.spawned_daedroths[sourceUnitId] = true
-        CombatAlerts.Alert("", "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
-      end
-    end
-
     if OCH.savedVariables.show_daedroth_spawn and isTank and string.match(targetName, OCH.data.daedroth_name) ~= nil then
       if OCH.status.spawned_daedroths[targetUnitId] == nil then
         OCH.status.spawned_daedroths[targetUnitId] = true
@@ -392,6 +397,17 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
 
       OCH.status.jynorah_titanic_clash_ongoing = false
 
+      OCH.status.jynorah_blazing_surge_stacks = 0
+      OCH.status.jynorah_sparking_surge_stacks = 0
+
+      if isDPS and OCH.savedVariables.show_jynorah_enfeeblement_swap then
+        if OCH.status.jynorah_got_blazing_enfeeblement then
+          CombatAlerts.Alert("", "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+        elseif OCH.status.jynorah_got_sparking_enfeeblement then
+          CombatAlerts.Alert("", "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+        end
+      end
+
       -------- start curse countdows
       OCH.status.jynorah_next_curse = GetGameTimeSeconds() + OCH.data.jynorah_curse_initial_countdown
       -------- restore curse labels
@@ -407,9 +423,9 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
     -------------------- Surge alert
     if targetType == COMBAT_UNIT_TYPE_PLAYER and result == ACTION_RESULT_BEGIN then
       if abilityId == OCH.data.jynorah_coldflame_surge then
-        CombatAlerts.Alert("", "Surge, Kite !", 0x3399FFD9, SOUNDS.DUEL_START, 3000)
+        CombatAlerts.Alert(nil, "Surge, Kite !", 0x3399FFD9, SOUNDS.DUEL_START, 3000)
       elseif abilityId == OCH.data.skorknif_brimstone_surge then
-        CombatAlerts.Alert("", "Surge, Kite !", 0xFF5733D9, SOUNDS.DUEL_START, 3000)
+        CombatAlerts.Alert(nil, "Surge, Kite !", 0xFF5733D9, SOUNDS.DUEL_START, 3000)
       end
     end
 
@@ -418,7 +434,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       ----------------------- Reflective Scales alerts
       if not OCH.status.reflective_scales_valneer_playing and abilityId == OCH.data.reflective_scales_valneer and targetType == COMBAT_UNIT_TYPE_PLAYER then
         OCH.status.reflective_scales_valneer_playing = true
-        CombatAlerts.Alert(nil, "Reflective Scales", 0xFF5733D9, nil, hitValue, 2500)
+        CombatAlerts.Alert(nil, "Reflective Scales", 0xFF5733D9, nil, hitValue)
         LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetReflectValneer", 2500,
                                     function()
@@ -429,7 +445,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
   
       if not OCH.status.reflective_scales_myrinax_playing and abilityId == OCH.data.reflective_scales_myrinax and targetType == COMBAT_UNIT_TYPE_PLAYER then
         OCH.status.reflective_scales_myrinax_playing = true
-        CombatAlerts.Alert(nil, "Reflective Scales", 0x3399FFD9, nil, hitValue, 2500)
+        CombatAlerts.Alert(nil, "Reflective Scales", 0x3399FFD9, nil, hitValue)
         LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         EVENT_MANAGER:RegisterForUpdate(OCH.name .. "ResetReflectMyrinax", 2500,
                                     function()
@@ -440,17 +456,16 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
 
       ------------------------------ Heatray Alerts
       if OCH.savedVariables.show_jynorah_heatray and abilityId == OCH.data.jynorah_blazing_heat_ray_cast_id and result == ACTION_RESULT_BEGIN and not isTank and not OCH.status.jynorah_got_blazing_enfeeblement then
-        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, hitValue, 4000)
+        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
       end
 
       if OCH.savedVariables.show_jynorah_heatray and abilityId == OCH.data.jynorah_sparking_heat_ray_cast_id and result == ACTION_RESULT_BEGIN and not isTank and not OCH.status.jynorah_got_sparking_enfeeblement then
-        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, hitValue, 4000)
+        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
       end
 
       ------------------------------- Process atronachs and seeking surge
       if OCH.savedVariables.show_jynorah_seeking_surge_alert then
-        
-        if not OCH.status.jynorah_titanic_clash_ongoing then -------------- Only gather new atros outside of the titanic clash phase
+        if not OCH.status.jynorah_titanic_clash_ongoing then -------------- No need to gather atronachs/play alerts during titanic clash
           if string.match(sourceName, OCH.data.jynorah_blazing_atronach_name)  then
             if OCH.status.blazing_atronachs_alive[sourceUnitId] == nil then
               OCH.status.blazing_atronachs_alive[sourceUnitId] = true
@@ -471,12 +486,11 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
               OCH.status.sparking_atronachs_alive[targetUnitId] = true
             end
           end
-
           if (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) -------------- Blazing atro died
             and OCH.status.blazing_atronachs_alive[targetUnitId] ~= nil then
             OCH.status.blazing_atronachs_alive[targetUnitId] = nil ------------- remove atro from table
             if not OCH.status.jynorah_got_blazing_enfeeblement and not isTank and OCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
-              CombatAlerts.Alert(nil, "Get Seeking Fire", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, hitValue, 2500)
+              CombatAlerts.Alert(nil, "Get Seeking Fire", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
             end
           end
 
@@ -484,7 +498,7 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
             and OCH.status.sparking_atronachs_alive[targetUnitId] ~= nil then
             OCH.status.sparking_atronachs_alive[targetUnitId] = nil ------------- remove atro from table
             if not OCH.status.jynorah_got_sparking_enfeeblement and not isTank and OCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
-              CombatAlerts.Alert(nil, "Get Seeking Fire", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, hitValue, 2500)
+              CombatAlerts.Alert(nil, "Get Seeking Fire", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
             end
           end
         end
