@@ -2,7 +2,7 @@ OCH = OCH or {}
 local OCH = OCH
 
 OCH.name     = "AsquartOsseinCageHelper"
-OCH.version  = "1.5.1"
+OCH.version  = "1.5.2"
 OCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 OCH.active   = false
 
@@ -982,15 +982,17 @@ function OCH.PlayerActivated()
   EVENT_MANAGER:UnregisterForEvent(OCH.name .. "RessurectResult", EVENT_RESURRECT_RESULT , OCH.OnResurrectResult)
   EVENT_MANAGER:RegisterForEvent(OCH.name .. "RessurectResult", EVENT_RESURRECT_RESULT, OCH.OnResurrectResult)
 
-    -- Hook into CSA display to get difficulty changed event
+  if (OCH.status.origQueueMessage) then
+      CENTER_SCREEN_ANNOUNCE.QueueMessage = OCH.status.origQueueMessage
+  end
+
+  -- Hook into CSA display to get difficulty changed event
   OCH.status.origQueueMessage = CENTER_SCREEN_ANNOUNCE.QueueMessage
   CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
       -- Call this a second later, because sometimes the health hasn't changed yet
-      EVENT_MANAGER:RegisterForUpdate(OCH.name .. "OnDificultyChanged", 1000,
-                                    function()
-                                      EVENT_MANAGER:UnregisterForUpdate(OCH.name .. "OnDificultyChanged")
-                                      OCH.OnDifficultyChanged()
-                                    end)
+      zo_callLater(function()
+            OCH.OnDifficultyChanged()
+        end, 1000)
       return OCH.status.origQueueMessage(s, messageParams)
   end
 

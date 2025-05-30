@@ -126,6 +126,7 @@
         "RESURRECT_RESULT_SUCCESS",
         "IsUnitDead",
         "EVENT_POWER_UPDATE",
-        "EVENT_VETERAN_DIFFICULTY_CHANGED"
+        "EVENT_VETERAN_DIFFICULTY_CHANGED",
+        "zo_callLater"
     ]
 }
