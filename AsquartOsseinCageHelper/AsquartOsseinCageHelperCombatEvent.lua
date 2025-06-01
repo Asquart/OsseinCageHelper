@@ -54,7 +54,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
   if abilityId == OCH.data.spectral_revenge_id and result == ACTION_RESULT_BEGIN and targetType == COMBAT_UNIT_TYPE_PLAYER and OCH.savedVariables.show_deadraiser_spectral_revenant then
     OCHRedAlertLabel:SetText("DODGE REVENANT!")
     PlaySound(SOUNDS.DUEL_START)
-    CombatAlerts.AlertCast(abilityId, "" , 1650, { -2, 2 } )
     OCHRedAlertLabel:SetHidden(false)
     OCHRedAlert:SetHidden(false)
     EVENT_MANAGER:RegisterForUpdate(OCH.name .. "HideRevenantDodgeText", 2000,
@@ -69,7 +68,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
     if not isTank then
       PlaySound(SOUNDS.DUEL_START)
     end
-    CombatAlerts.AlertCast(abilityId, "Heavy Strike" , 1400, { -2, 2 } )
   end
 
   if OCH.savedVariables.show_carrion_reaper_corvid_swarm and abilityId == OCH.data.carrion_reaper_corvid_swarm_cast and result == ACTION_RESULT_EFFECT_GAINED and targetType == COMBAT_UNIT_TYPE_PLAYER then
@@ -119,17 +117,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
     end
   end
 
-  ------------ TO REMOVE after making sure CCA dodgelist works properly
-  -------------------------------- Archer Alerts
-  -- if (abilityId == OCH.data.osteon_archer_taking_aim or abilityId == OCH.data.skeletal_archer_taking_aim) and targetType == COMBAT_UNIT_TYPE_PLAYER and result == ACTION_RESULT_BEGIN and OCH.savedVariables.show_osteon_archer_taking_aim then
-  --   OCH.status.cast_alert_ids[sourceUnitId] = CombatAlerts.AlertCast(abilityId, "Taking Aim" , 9000, { -3, 1, true } )
-  -- end
-
-  -- if abilityId == OCH.data.sinewshot_true_shot and targetType == COMBAT_UNIT_TYPE_PLAYER and result == ACTION_RESULT_BEGIN and OCH.savedVariables.show_osteon_archer_taking_aim then
-  --   OCH.status.cast_alert_ids[sourceUnitId] = CombatAlerts.AlertCast(abilityId, "True Shot" , 7000, { -3, 1, true } )
-  -- end
-  -------------------------------- Archer Alerts
-
   -------------------- Remove interrupted cast alerts
   if result == ACTION_RESULT_DIED or result == ACTION_RESULT_STUNNED or result == ACTION_RESULT_INTERRUPT or result == ACTION_RESULT_DIED_XP then
     if OCH.status.cast_alert_ids[targetUnitId] ~= nil then
@@ -177,10 +164,6 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       and (abilityId == OCH.data.harvester_ethereal_burst_1 or abilityId == OCH.data.harvester_ethereal_burst_2)
       and OCH.savedVariables.show_harvester_aggro
       and not OCH.status.harvesterAlertPlaying then
-
-      if abilityId == OCH.data.harvester_ethereal_burst_2 then
-        CombatAlerts.AlertCast(abilityId, "Potent Ethereal Burst" , 1500, { -3, 1, true} )
-      end
       if isDPS or isHeal then
         OCH.status.harvesterAlertPlaying = true
         OCHRedAlertLabel:SetText("HARVESTER ATTACKS YOU!")
@@ -468,42 +451,14 @@ function OCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphic
       end
 
       ------------------------------- Process atronachs and seeking surge
-      if OCH.savedVariables.show_jynorah_seeking_surge_alert then
-        if not OCH.status.jynorah_titanic_clash_ongoing then -------------- No need to gather atronachs/play alerts during titanic clash
-          if string.match(sourceName, OCH.data.jynorah_blazing_atronach_name)  then
-            if OCH.status.blazing_atronachs_alive[sourceUnitId] == nil then
-              OCH.status.blazing_atronachs_alive[sourceUnitId] = true
-            end
+      if OCH.savedVariables.show_jynorah_seeking_surge_alert and not isTank and not OCH.status.jynorah_titanic_clash_ongoing and abilityId == OCH.data.jynorah_seeking_flames_cast then
+        if targetUnitId == OCH.status.myrinax_id then -------------- Blazing flames spawned
+          if not OCH.status.jynorah_got_blazing_enfeeblement and OCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
+            CombatAlerts.Alert(nil, "Get Seeking Fire", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
-          if string.match(targetName, OCH.data.jynorah_blazing_atronach_name)  then
-            if OCH.status.blazing_atronachs_alive[targetUnitId] == nil then
-              OCH.status.blazing_atronachs_alive[targetUnitId] = true
-            end
-          end
-          if string.match(sourceName, OCH.data.jynorah_sparking_atronach_name)  then
-            if OCH.status.sparking_atronachs_alive[sourceUnitId] == nil then
-              OCH.status.sparking_atronachs_alive[sourceUnitId] = true
-            end
-          end
-          if string.match(targetName, OCH.data.jynorah_sparking_atronach_name)  then
-            if OCH.status.sparking_atronachs_alive[targetUnitId] == nil then
-              OCH.status.sparking_atronachs_alive[targetUnitId] = true
-            end
-          end
-          if (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) -------------- Blazing atro died
-            and OCH.status.blazing_atronachs_alive[targetUnitId] ~= nil then
-            OCH.status.blazing_atronachs_alive[targetUnitId] = nil ------------- remove atro from table
-            if not OCH.status.jynorah_got_blazing_enfeeblement and not isTank and OCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
-              CombatAlerts.Alert(nil, "Get Seeking Fire", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
-            end
-          end
-
-          if (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) -------------- Sparking atro died
-            and OCH.status.sparking_atronachs_alive[targetUnitId] ~= nil then
-            OCH.status.sparking_atronachs_alive[targetUnitId] = nil ------------- remove atro from table
-            if not OCH.status.jynorah_got_sparking_enfeeblement and not isTank and OCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
-              CombatAlerts.Alert(nil, "Get Seeking Fire", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
-            end
+        elseif targetUnitId == OCH.status.valneer_id then
+          if not OCH.status.jynorah_got_sparking_enfeeblement and not isTank and OCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
+            CombatAlerts.Alert(nil, "Get Seeking Fire", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
         end
       end

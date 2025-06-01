@@ -25,8 +25,6 @@ SafeAddString(OCH_Jynorah,              "Jynorah", 3) -- id 126390
 SafeAddString(OCH_Skorknif,             "Skorkhif", 3) -- id 126391
 SafeAddString(OCH_Valneer,              "Valneer le surforgé", 3) -- id 125523
 SafeAddString(OCH_Myrinax,              "étincelle d'orage Myrinax", 3) -- id 125522
-SafeAddString(OCH_BlazingAtronach,      "atronach de feu embrasé", 3) -- id 125674
-SafeAddString(OCH_SparkingAtronach,     "atronach de givrefeu crépitant", 3) -- id 125673
 
 SafeAddString(OCH_Kazpian,              "Ennemi Kazpian", 3) -- id 125498
 SafeAddString(OCH_AgonizerBomb,         "Bombe d'agonie", 3) -- id 128479

@@ -25,8 +25,6 @@ SafeAddString(OCH_Jynorah,              "Jynorah", 2) -- id 126390
 SafeAddString(OCH_Skorknif,             "Skorkhif", 2) -- id 126391
 SafeAddString(OCH_Valneer,              "Glutgeschmiedeter Valneer", 2) -- id 125523
 SafeAddString(OCH_Myrinax,              "Funkensturm Myrinax", 2) -- id 125522
-SafeAddString(OCH_BlazingAtronach,      "lodernder Flammenatronach", 2) -- id 125674
-SafeAddString(OCH_SparkingAtronach,     "funkensprühender Kaltflammenatronach", 2) -- id 125673
 
 SafeAddString(OCH_Kazpian,              "Oberunhold Kazpian", 2) -- id 125498
 SafeAddString(OCH_AgonizerBomb,         "Marterbombe", 2) -- id 128479

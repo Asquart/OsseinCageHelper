@@ -25,8 +25,6 @@ SafeAddString(OCH_Jynorah,              "吉诺拉", 7) -- id 126390
 SafeAddString(OCH_Skorknif,             "斯科尔基弗", 7) -- id 126391
 SafeAddString(OCH_Valneer,              "炽焰锻铸瓦尔尼尔", 7) -- id 125523
 SafeAddString(OCH_Myrinax,              "火花风暴米里纳克斯", 7) -- id 125522
-SafeAddString(OCH_BlazingAtronach,      "炽热烈焰侍灵", 7) -- id 125674
-SafeAddString(OCH_SparkingAtronach,     "闪耀冷焰侍灵", 7) -- id 125673
 
 SafeAddString(OCH_Kazpian,              "魂摄魔灵卡兹皮安", 7) -- id 125498
 SafeAddString(OCH_AgonizerBomb,         "痛楚爆弹", 7) -- id 128479

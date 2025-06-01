@@ -25,8 +25,6 @@ SafeAddString(OCH_Jynorah,              "Джинора", 5) -- id 126390
 SafeAddString(OCH_Skorknif,             "Скоркиф", 5) -- id 126391
 SafeAddString(OCH_Valneer,              "Валнир Дитя Пламени", 5) -- id 125523
 SafeAddString(OCH_Myrinax,              "Мириназ Искра Бури", 5) -- id 125522
-SafeAddString(OCH_BlazingAtronach,      "Пылающий огненный атронах", 5) -- id 125674
-SafeAddString(OCH_SparkingAtronach,     "Искрящий атронах холодного пламени", 5) -- id 125673
 
 SafeAddString(OCH_Kazpian,              "Сверхчудовище Казпиан", 5) -- id 125498
 SafeAddString(OCH_AgonizerBomb,         "Пыточная бомба", 5) -- id 128479

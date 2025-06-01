@@ -202,7 +202,7 @@ function OCH.UpdateTick(gameTimeMs)
     end
 
     ------------------------ Update curse timer
-    if OCH.savedVariables.show_jynorah_curse_timer and not OCH.status.jynorah_titanic_clash_ongoing then
+    if OCH.savedVariables.show_jynorah_curse_timer and not OCH.status.jynorah_titanic_clash_ongoing and OCH.status.inCombat then
       local timeToNextCurse = OCH.status.jynorah_next_curse - timeSec
       if not OCH.status.inCombat then
         OCHStatusJynorahCurseTimerLabelValue:SetText("Pending")

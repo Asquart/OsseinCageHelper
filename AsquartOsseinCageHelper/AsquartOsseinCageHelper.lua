@@ -82,8 +82,6 @@ OCH.status = {
   enfeeblement_swapped_while_dead = false,
   reflective_scales_valneer_playing = false,
   reflective_scales_myrinax_playing = false,
-  blazing_atronachs_alive = {},
-  sparking_atronachs_alive = {},
   jynorah_blazing_surge_stacks = 0,
   jynorah_sparking_surge_stacks = 0,
   current_myrinax_hp = 100000000,
@@ -201,9 +199,6 @@ OCH.data    = {
   carrion_shield_synergy_name = GetString(OCH_CarrionShield),
   carrion_shield_synergy_icon = "/esoui/art/icons/u46_tri_bp_refresh.dds",
 
-  -- Colossus
-  colossus_bone_saw = 245273,
-
   -- Deadraised
   deadraiser_spike_cage = 236477,
   deadraiser_cursed_terrain = 236386,
@@ -212,10 +207,6 @@ OCH.data    = {
   spectral_revenant_toxic_ire = 160007,
   spectral_revenge_id = 236569,
   spectral_revenant_name = GetString(OCH_SpectralRevenant),
-
-  -- Osteon Skeletal Archer
-  osteon_archer_taking_aim = 239158,
-  skeletal_archer_taking_aim = 239158,
 
   -- Tormented Soul Devourer
   soul_devourer_detonate_soul_debuff = 236778,
@@ -259,7 +250,6 @@ OCH.data    = {
   daedroth_name = GetString(OCH_Daedroth),
   harvester_name = GetString(OCH_Harvester),
   channeler_name = GetString(OCH_Channeler),
-  channeler_heavy_id = 240984,
   harvester_ethereal_burst_1 = 236466,
   harvester_ethereal_burst_2 = 236458, -- Heavy !
   channeler_hp_hm = 2425644,
@@ -268,7 +258,6 @@ OCH.data    = {
   fleshspawn_hp_vet = 970258,
   fleshspawn_hp_nrm = 603546,
   channeler_id = 125666,
-  sinewshot_true_shot = 236381, -- small archer one-shot channeled
   channeler_coldfire_barrage = 241037,
   caustic_carrion = 240708,
   colony_collapse = 236403,
@@ -307,10 +296,7 @@ OCH.data    = {
   reflective_scales_myrinax = 233321,
   jynorah_sparking_heat_ray_cast_id = 234076,
   jynorah_blazing_heat_ray_cast_id = 234150,
-  jynorah_seeking_spark_surge_debuff_id = 234574,
-  jynorah_seeking_forge_fire_debuff_id = 234596,
-  jynorah_blazing_atronach_name = GetString(OCH_BlazingAtronach),
-  jynorah_sparking_atronach_name = GetString(OCH_SparkingAtronach),
+  jynorah_seeking_flames_cast = 248043,
 
   -- Blood Drinker Thisa
   blood_drinker_thisa_name = GetString(OCH_BloodDrkinerThisa),
@@ -511,8 +497,6 @@ function OCH.CombatState(eventCode, inCombat)
       OCH.status.enfeeblement_swapped_while_dead = false
       OCH.status.reflective_scales_myrinax_playing = false
       OCH.status.reflective_scales_valneer_playing = false
-      OCH.status.blazing_atronachs_alive = {}
-      OCH.status.sparking_atronachs_alive = {}
       OCH.status.jynorah_blazing_surge_stacks = 0
       OCH.status.jynorah_sparking_surge_stacks = 0
       OCH.status.valneer_id = nil
@@ -551,6 +535,7 @@ function OCH.CombatState(eventCode, inCombat)
     OCH.status.block_carrion_synergy = false
     OCH.status.inCombat = false
     OCH.status.num_fleshspawn = 0
+    OCH.status.jynorah_next_curse = 0
     OCH.UpdateFleshspawnCounter()
   end
 end
@@ -560,6 +545,7 @@ function OCH.ClearUIOutOfCombat()
 end
 
 function OCH.HideAllUI(hide)
+  
   OCHPurpleAlert:SetHidden(hide)
   OCHRedAlert:SetHidden(hide)
   OCHYellowAlert:SetHidden(hide)
@@ -592,6 +578,7 @@ function OCH.HideAllUI(hide)
   -- Jynorah curse timer
   OCHStatusJynorahCurseTimerLabel:SetHidden(hide)
   OCHStatusJynorahCurseTimerLabelValue:SetHidden(hide)
+  OCHStatusJynorahCurseTimerLabelValue:SetText("Pending")
 
   -- Boss Carrion tracker
   OCHStatusBossCarrionTrackerLabel:SetHidden(hide)
@@ -707,8 +694,6 @@ function OCH.BossesChanged()
     OCH.status.jynorah_got_blazing_enfeeblement = false
     OCH.status.jynorah_got_sparking_enfeeblement = false
     OCH.status.enfeeblement_swapped_while_dead = false
-    OCH.status.blazing_atronachs_alive = {}
-    OCH.status.sparking_atronachs_alive = {}
     OCH.status.jynorah_blazing_surge_stacks = 0
     OCH.status.jynorah_sparking_surge_stacks = 0
     OCH.status.valneer_id = nil

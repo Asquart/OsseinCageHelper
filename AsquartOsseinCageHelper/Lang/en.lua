@@ -26,8 +26,6 @@
 	OCH_Skorknif		=		"Skorkhif", -- .lang A117684
 	OCH_Valneer			=		"Blazeforged Valneer", -- .lang A117108
 	OCH_Myrinax			=		"Sparkstorm Myrinax", -- .lang A117107
-	OCH_BlazingAtronach	=		"Blazing Flame Atronach", -- .lang A117225
-	OCH_SparkingAtronach	=	"Sparking Cold-Flame Atronach", -- .lang A117224
 
 	OCH_Kazpian			=		"Overfiend Kazpian", -- .lang A117085
 	OCH_AgonizerBomb	=		"Agonizer Bomb", -- .lang A118272

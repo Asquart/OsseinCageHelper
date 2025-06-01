@@ -95,20 +95,6 @@ function OCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitTa
       end
     end
 
-    ----------- Gather blazing/sparking atronachs
-    if OCH.savedVariables.show_jynorah_seeking_surge_alert and not OCH.status.jynorah_titanic_clash_ongoing then
-      if string.match(unitName, OCH.data.jynorah_blazing_atronach_name) then
-        if OCH.status.blazing_atronachs_alive[unitId] == nil then
-          OCH.status.blazing_atronachs_alive[unitId] = true
-        end
-      end
-      if string.match(unitName, OCH.data.jynorah_sparking_atronach_name) then
-        if OCH.status.sparking_atronachs_alive[unitId] == nil then
-          OCH.status.sparking_atronachs_alive[unitId] = true
-        end
-      end
-    end
-
     if OCH.status.is_hm_boss then
       ---------------------------- Enfeeblement debuff gained & boss swap alert
       if abilityId == OCH.data.jynorah_blazing_enfeeblement then

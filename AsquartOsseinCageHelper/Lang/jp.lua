@@ -25,8 +25,6 @@ SafeAddString(OCH_Jynorah,              "ジノラー", 6) -- id 126390
 SafeAddString(OCH_Skorknif,             "スコルキフ", 6) -- id 126391
 SafeAddString(OCH_Valneer,              "ブレイズフォージド・ヴァルニア", 6) -- id 125523
 SafeAddString(OCH_Myrinax,              "スパークストーム・ミリナックス", 6) -- id 125522
-SafeAddString(OCH_BlazingAtronach,      "燃え盛る炎の精霊", 6) -- id 125674
-SafeAddString(OCH_SparkingAtronach,     "輝く冷炎の精霊", 6) -- id 125673
 
 SafeAddString(OCH_Kazpian,              "オーバーフィーンド・カズピアン", 6) -- id 125498
 SafeAddString(OCH_AgonizerBomb,         "苦しめる者の爆弾", 6) -- id 128479
