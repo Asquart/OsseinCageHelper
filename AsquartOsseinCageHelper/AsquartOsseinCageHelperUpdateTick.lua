@@ -173,23 +173,14 @@ function AOCH.UpdateTick(gameTimeMs)
     ----------------- portal countdown
     if AOCH.savedVariables.show_jynorah_portal_countdown then
       local portalLeft = 0
-      if AOCH.status.is_hm_boss then
-        if 0.754 < totalBossPercent and totalBossPercent < 0.80  then
-          portalLeft = (totalBossPercent - 0.754)*100
-        elseif 0.354 < totalBossPercent and totalBossPercent < 0.4 then
-          portalLeft = (totalBossPercent - 0.354)*100
-        else
-          portalLeft = 0
-        end
+      if 0.754 < totalBossPercent and totalBossPercent < 0.80  then
+        portalLeft = (totalBossPercent - 0.754)*100
+      elseif 0.354 < totalBossPercent and totalBossPercent < 0.4 then
+        portalLeft = (totalBossPercent - 0.354)*100
       else
-        if 0.704 < totalBossPercent and totalBossPercent < 0.8  then
-          portalLeft = (totalBossPercent - 0.704)*100
-        elseif 0.404 < totalBossPercent and totalBossPercent < 0.5 then
-          portalLeft = (totalBossPercent - 0.404)*100
-        else
-          portalLeft = 0
-        end
+        portalLeft = 0
       end
+      
 
       if portalLeft > 0 and not AOCH.status.jynorah_titanic_clash_ongoing then
         local txtPercentNum = tostring(string.format("%.1f", portalLeft))

@@ -2,7 +2,7 @@ AOCH = AOCH or {}
 local AOCH = AOCH
 
 AOCH.name     = "AsquartOsseinCageHelper"
-AOCH.version  = "1.7.3"
+AOCH.version  = "1.7.4"
 AOCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 AOCH.active   = false
 
