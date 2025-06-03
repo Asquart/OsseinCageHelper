@@ -158,7 +158,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
   ---------------- Blooddrinker Thisa
   if AOCH.status.is_Blood_Drinker_Thisa then
     if result == ACTION_RESULT_BEGIN and abilityId == AOCH.data.thisa_blood_dive then
-      AOCH.Alert("", "Blood Dive", 0xFF0000FF, nil, SOUNDS.CHAMPION_POINTS_COMMITTED, 1500)
+      CombatAlerts.Alert("", "Blood Dive", 0xFF0000FF, nil, SOUNDS.CHAMPION_POINTS_COMMITTED, 1500)
     end
   end
 
