@@ -31,14 +31,6 @@ function AOCH.UpdateTick(gameTimeMs)
     AOCH.status.inCombat = true
   end
 
-  AOCH.status.is_trash = true
-  AOCH.status.is_Gedna_Relvel = true
-  AOCH.status.is_Tortured_Ranyu = true
-  AOCH.status.is_Blood_Drinker_Thisa = true
-  AOCH.status.is_Hall_of_Fleshcraft = true
-  AOCH.status.is_jynorah_and_skorkhif = true
-  AOCH.status.is_kazpian = true
-
   if AOCH.status.is_trash then
     AOCH.SetTrashIcons()
 
