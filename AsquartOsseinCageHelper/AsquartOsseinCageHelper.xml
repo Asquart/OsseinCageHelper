@@ -1,10 +1,10 @@
 <GuiXml>
   <Controls>
     <!-- Purple Alert -->
-    <TopLevelControl name="OCHPurpleAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="AOCHPurpleAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="800" y="200" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-250" />
-      <OnMoveStop>OCH.OnOCHPurpleAlertMove()</OnMoveStop>
+      <OnMoveStop>AOCH.OnAOCHPurpleAlertMove()</OnMoveStop>
  
       <Controls>
         <Label name="$(parent)Label" width="800" height="200" font="EsoUI/Common/Fonts/univers67.otf|80|soft-shadow-thick" inheritAlpha="true" color="CC33FF"
@@ -15,10 +15,10 @@
     </TopLevelControl>
     
     <!-- Red Alert -->
-    <TopLevelControl name="OCHRedAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="AOCHRedAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="800" y="200" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-50" />
-      <OnMoveStop>OCH.OnOCHRedAlertMove()</OnMoveStop>
+      <OnMoveStop>AOCH.OnAOCHRedAlertMove()</OnMoveStop>
       
       <Controls>
         <Label name="$(parent)Label" width="800" height="200" font="EsoUI/Common/Fonts/univers67.otf|80|soft-shadow-thick" inheritAlpha="true" color="CC0000"
@@ -29,10 +29,10 @@
     </TopLevelControl>
 
     <!-- Yellow Alert -->
-    <TopLevelControl name="OCHYellowAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="AOCHYellowAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="800" y="200" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-150" />
-      <OnMoveStop>OCH.OnOCHYellowAlertMove()</OnMoveStop>
+      <OnMoveStop>AOCH.OnAOCHYellowAlertMove()</OnMoveStop>
       
       <Controls>
         <Label name="$(parent)Label" width="800" height="200" font="EsoUI/Common/Fonts/univers67.otf|80|soft-shadow-thick" inheritAlpha="true" color="edd51a"
@@ -43,10 +43,10 @@
     </TopLevelControl>
 
     <!-- Tank Swap Alert -->
-    <TopLevelControl name="OCHSwapAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="AOCHSwapAlert" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="800" y="200" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="300" />
-      <OnMoveStop>OCH.OnOCHYellowAlertMove()</OnMoveStop>
+      <OnMoveStop>AOCH.OnAOCHYellowAlertMove()</OnMoveStop>
       
       <Controls>
         <Label name="$(parent)Label" width="800" height="200" font="EsoUI/Common/Fonts/univers67.otf|80|soft-shadow-thick" inheritAlpha="true" color="CC0000"
@@ -56,10 +56,10 @@
       </Controls>
     </TopLevelControl>
 
-    <TopLevelControl name="OCHStatus" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="AOCHStatus" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="500" y="200" />
       <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-150" offsetX="600" />
-      <OnMoveStop>OCH.OnOCHStatusMove()</OnMoveStop>
+      <OnMoveStop>AOCH.OnAOCHStatusMove()</OnMoveStop>
       <Controls>
       <!-- Red status alert 1 -->
       <Label name="$(parent)RedWarningLabel1" font="EsoUI/Common/Fonts/univers67.otf|60|soft-shadow-thick" color="FF0000" text="Alert 1" verticalAlignment="CENTER" horizontalAlignment="LEFT"  alpha="0.85">

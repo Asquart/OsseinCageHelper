@@ -1,7 +1,7 @@
-OCH = OCH or {}
-local OCH = OCH
+AOCH = AOCH or {}
+local AOCH = AOCH
 
-OCH.icons_data = {
+AOCH.icons_data = {
   -- Coordinates:
   pack_number_coords = 
   {
@@ -296,6 +296,7 @@ OCH.icons_data = {
   -- Hall of Fleshcraft
   harvester_spawn_texture_1 = "AsquartOsseinCageHelper/icons/harvester_1.dds",
   harvester_spawn_texture_2 = "AsquartOsseinCageHelper/icons/harvester_2.dds",
+  ogrim_texture = "AsquartOsseinCageHelper/icons/ogrim.dds",
 
   -- Jynorah and Skorknif
   jynorah_stack_texture = "AsquartOsseinCageHelper/icons/jynorah.dds",
