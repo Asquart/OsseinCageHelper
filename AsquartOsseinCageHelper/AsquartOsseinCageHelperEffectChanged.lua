@@ -30,7 +30,7 @@ function AOCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitT
   if unitTag == "player" and abilityId == AOCH.data.soul_devourer_life_drain_debuff and AOCH.savedVariables.show_soul_devourer_life_drain then
     if changeType == EFFECT_RESULT_GAINED then
       if AOCH.status.life_drain_alert_id == nil then
-        AOCH.status.life_drain_alert_id = CombatAlerts.Alert("", "Got Life Drain, cleanse!", 0x14FEFFFF, SOUNDS.DUEL_START, 10000)
+        AOCH.status.life_drain_alert_id = CombatAlerts.Alert(nil, "Got Life Drain, cleanse!", 0x14FEFFFF, SOUNDS.DUEL_START, 10000)
       end
     elseif changeType == EFFECT_RESULT_FADED then
       CombatAlerts.DisableBanner(AOCH.status.life_drain_alert_id)
@@ -74,7 +74,7 @@ function AOCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitT
     if AOCH.savedVariables.show_daedroth_spawn and isTank and string.match(unitName, AOCH.data.daedroth_name) ~= nil then
       if AOCH.status.spawned_daedroths[unitId] == nil then
         AOCH.status.spawned_daedroths[unitId] = true
-        CombatAlerts.Alert("", "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+        CombatAlerts.Alert(nil, "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
       end
     end
   end
@@ -103,7 +103,7 @@ function AOCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitT
             AOCH.status.jynorah_got_blazing_enfeeblement = true
             AOCH.status.jynorah_got_sparking_enfeeblement = false
             if AOCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
-              CombatAlerts.Alert("", "Move to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+              CombatAlerts.Alert(nil, "Move to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
             end
           -- If someone else gets enfeeblement but player is a DD and is dead - swap the color so an appropriate alert will spawn when ressurected
           elseif not AOCH.status.enfeeblement_swapped_while_dead and isDPS and IsUnitDead("player") then
@@ -127,7 +127,7 @@ function AOCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitT
             AOCH.status.jynorah_got_sparking_enfeeblement = true
             AOCH.status.jynorah_got_blazing_enfeeblement = false
             if AOCH.savedVariables.show_jynorah_enfeeblement_swap and isDPS then
-              CombatAlerts.Alert("", "Move to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+              CombatAlerts.Alert(nil, "Move to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
             end
           -- If someone else gets enfeeblement but player is a DD and is dead - swap the color so an appropriate alert will spawn when ressurected
           elseif not AOCH.status.enfeeblement_swapped_while_dead and isDPS and IsUnitDead("player") then

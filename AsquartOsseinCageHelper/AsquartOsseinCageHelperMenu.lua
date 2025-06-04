@@ -465,6 +465,14 @@ function AOCH.AddonMenu()
 				tooltip = "Shows alert for DDs and Healers what portal color they should go into",
 				warning = "WILL NOT display the alert if you never got a curse before entering portal"
 			},
+			{
+				type    = "checkbox",
+				name    = "Show Titans breath alert (HM)",
+				default = true,
+				getFunc = function() return AOCH.savedVariables.show_jynorah_titan_breath   end,
+				setFunc = function(newValue) AOCH.savedVariables.show_jynorah_titan_breath   = newValue end,
+				tooltip = "Shows alert for the whole group when titan's goaded breath starts so people move out of it",
+			},
     {
       type = "header",
       name = "Overfiend Kazpian",

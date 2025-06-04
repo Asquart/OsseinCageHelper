@@ -34,7 +34,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       local _, playerX, playerY, playerZ = GetUnitRawWorldPosition("player")
       local distance = AOCH.GetDist(unitX,unitY,unitZ,playerX,playerY,playerZ)
       if distance < 400 then
-        CombatAlerts.Alert("", "Spike Cage !", 0xFF0000FF, SOUNDS.DUEL_START, 3000)
+        CombatAlerts.Alert(nil, "Spike Cage !", 0xFF0000FF, SOUNDS.DUEL_START, 3000)
       end
     end
   end
@@ -158,7 +158,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
   ---------------- Blooddrinker Thisa
   if AOCH.status.is_Blood_Drinker_Thisa then
     if result == ACTION_RESULT_BEGIN and abilityId == AOCH.data.thisa_blood_dive then
-      CombatAlerts.Alert("", "Blood Dive", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 1500)
+      CombatAlerts.Alert(nil, "Blood Dive", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 1500)
     end
   end
 
@@ -194,7 +194,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
         local _, playerX, playerY, playerZ = GetUnitRawWorldPosition("player")
         local distance = AOCH.GetDist(unitX,unitY,unitZ,playerX,playerY,playerZ)
         if distance < 400 then
-          CombatAlerts.Alert("", "Ogrim Charge !", 0xFFFFFF00, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
+          CombatAlerts.Alert(nil, "Ogrim Charge !", 0xFFFFFF00, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
         end
 
         if AOCH.hasOSI() then
@@ -202,11 +202,11 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
             unitX, unitY, unitZ,
             AOCH.icons_data.ogrim_texture,
             2 * OSI.GetIconSize())
-
+          AOCH.status.ogrim_charge_alerts[icon] = true
           EVENT_MANAGER:RegisterForUpdate(AOCH.name .. "RemoveOgrimIcon", 2000,
                             function()
                             EVENT_MANAGER:UnregisterForUpdate(AOCH.name .. "RemoveOgrimIcon")
-                              OSI.DiscardPositionIcon(icon)
+                                OSI.DiscardPositionIcon(icon)
                             end)
         end
       end
@@ -240,7 +240,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
     if AOCH.savedVariables.show_daedroth_spawn and isTank and string.match(targetName, AOCH.data.daedroth_name) ~= nil then
       if AOCH.status.spawned_daedroths[targetUnitId] == nil then
         AOCH.status.spawned_daedroths[targetUnitId] = true
-        CombatAlerts.Alert("", "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+        CombatAlerts.Alert(nil, "Daedroth Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
       end
     end
 
@@ -342,8 +342,8 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
   if AOCH.status.is_jynorah_and_skorkhif then
 
     ------------------------------ Titanic Leap
-    if AOCH.savedVariables.show_jynorah_titanic_leap and AOCH.data.titanic_leap_ids[abilityId] then
-      CombatAlerts.Alert("", "Titanic Leap", 0xFFFFFF00, SOUNDS.DUEL_START, 2500)
+    if AOCH.savedVariables.show_jynorah_titanic_leap and AOCH.data.titanic_leap_ids[abilityId] and result == ACTION_RESULT_BEGIN then
+      CombatAlerts.Alert(nil, "Titanic Leap", 0xCC8747FF, SOUNDS.DUEL_START, 2500)
     end
 
     ------------------------------ Curse Cast
@@ -397,9 +397,9 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
 
       if AOCH.status.is_hm_boss and AOCH.savedVariables.show_jynorah_portal_color then
         if AOCH.status.jynorah_got_blazing_enfeeblement then
-          CombatAlerts.Alert("", "Go Blue Portal", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          CombatAlerts.Alert(nil, "Go Blue Portal", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
         elseif AOCH.status.jynorah_got_sparking_enfeeblement then
-          CombatAlerts.Alert("", "Go Red Portal", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          CombatAlerts.Alert(nil, "Go Red Portal", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
         end
       end
 
@@ -433,9 +433,9 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
 
       if isDPS and AOCH.savedVariables.show_jynorah_enfeeblement_swap then
         if AOCH.status.jynorah_got_blazing_enfeeblement then
-          CombatAlerts.Alert("", "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          CombatAlerts.Alert(nil, "Go to Blue Boss", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
         elseif AOCH.status.jynorah_got_sparking_enfeeblement then
-          CombatAlerts.Alert("", "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+          CombatAlerts.Alert(nil, "Go to Red Boss", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
         end
       end
 
@@ -477,6 +477,15 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
                                       AOCH.status.reflective_scales_valneer_playing = false
                                     end)
       end
+
+      -------------------- Titan Breath
+      if AOCH.savedVariables.show_jynorah_titan_breath and abilityId == AOCH.data.valneer_breath_id and result == ACTION_RESULT_BEGIN then
+        CombatAlerts.Alert(nil, "Titan Breath", 0x3399FFD9, SOUNDS.DUEL_START, 2500)
+      end
+
+      if AOCH.savedVariables.show_jynorah_titan_breath and abilityId == AOCH.data.myrinax_breath_id and result == ACTION_RESULT_BEGIN then
+        CombatAlerts.Alert(nil, "Titan Breath", 0x3399FFD9, SOUNDS.DUEL_START, 2500)
+      end
   
       if not AOCH.status.reflective_scales_myrinax_playing and abilityId == AOCH.data.reflective_scales_myrinax and targetType == COMBAT_UNIT_TYPE_PLAYER then
         AOCH.status.reflective_scales_myrinax_playing = true
@@ -491,22 +500,22 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
 
       ------------------------------ Heatray Alerts
       if AOCH.savedVariables.show_jynorah_heatray and abilityId == AOCH.data.jynorah_blazing_heat_ray_cast_id and result == ACTION_RESULT_BEGIN and not isTank and not AOCH.status.jynorah_got_blazing_enfeeblement then
-        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
+        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
       end
 
       if AOCH.savedVariables.show_jynorah_heatray and abilityId == AOCH.data.jynorah_sparking_heat_ray_cast_id and result == ACTION_RESULT_BEGIN and not isTank and not AOCH.status.jynorah_got_sparking_enfeeblement then
-        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
+        CombatAlerts.Alert(nil, "Heat Ray, Stack!", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
       end
 
       ------------------------------- Process atronachs and seeking surge
       if AOCH.savedVariables.show_jynorah_seeking_surge_alert and not isTank and not AOCH.status.jynorah_titanic_clash_ongoing and abilityId == AOCH.data.jynorah_seeking_flames_cast then
         if targetUnitId == AOCH.status.myrinax_id then -------------- Blazing flames spawned
           if not AOCH.status.jynorah_got_blazing_enfeeblement and AOCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
-            CombatAlerts.Alert(nil, "Get Seeking Fire", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
+            CombatAlerts.Alert(nil, "Get Seeking Fire", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
         elseif targetUnitId == AOCH.status.valneer_id then
           if not AOCH.status.jynorah_got_sparking_enfeeblement and not isTank and AOCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
-            CombatAlerts.Alert(nil, "Get Seeking Fire", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
+            CombatAlerts.Alert(nil, "Get Seeking Fire", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
         end
       end
@@ -590,7 +599,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
 
     ------------------------- Immolating Sphere alert
     if AOCH.savedVariables.show_immolating_sphere and abilityId == AOCH.data.immolating_sphere and targetType == COMBAT_UNIT_TYPE_PLAYER then
-      CombatAlerts.Alert("", "Immolating Sphere", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2400)
+      CombatAlerts.Alert(nil, "Immolating Sphere", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2400)
     end
 
     ------------------------- Kazpian jump
@@ -599,7 +608,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       local time_since_last_jump = currentTime - AOCH.status.kazpian_last_jump_time
       if time_since_last_jump > 6 then
         AOCH.status.kazpian_last_jump_time = currentTime
-        CombatAlerts.Alert("", "Boss Jump", 0xFF5733D9, SOUNDS.OBJECTIVE_DISCOVERED, 2000)
+        CombatAlerts.Alert(nil, "Boss Jump", 0xFF5733D9, SOUNDS.OBJECTIVE_DISCOVERED, 2000)
       end
     end
 
@@ -609,7 +618,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       local time_since_last_jump = currentTime - AOCH.status.kazpian_last_enraged_jump_time
       if time_since_last_jump > 6 then
         AOCH.status.kazpian_last_enraged_jump_time = currentTime
-        CombatAlerts.Alert("", "Boss Jump Enraged", 0xFF0000FF, SOUNDS.DUEL_START, 2000)
+        CombatAlerts.Alert(nil, "Boss Jump Enraged", 0xFF0000FF, SOUNDS.DUEL_START, 2000)
       end
     end
 
@@ -619,15 +628,15 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       AOCH.status.kazpian_curse_spawned = true
       if AOCH.savedVariables.show_kazpian_curse_alert_only_player then
         if targetType == COMBAT_UNIT_TYPE_PLAYER and isDPS then
-          CombatAlerts.Alert("", "Blaze on you, STACK", 0xFF0000FF, nil, 3000)
+          CombatAlerts.Alert(nil, "Blaze on you, STACK", 0xFF0000FF, nil, 3000)
           LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         end
       else
         if targetType == COMBAT_UNIT_TYPE_PLAYER and isDPS then
-          CombatAlerts.Alert("", "Blaze on you, STACK", 0xFF0000FF, nil, 3000)
+          CombatAlerts.Alert(nil, "Blaze on you, STACK", 0xFF0000FF, nil, 3000)
           LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         else
-          CombatAlerts.Alert("", "Biting Blaze starts", 0xFF0000FF, nil, 3000)
+          CombatAlerts.Alert(nil, "Biting Blaze starts", 0xFF0000FF, nil, 3000)
           LibCombatAlerts.PlaySounds("SCRYING_ACTIVATE_BOMB", 10, nil)
         end
       end

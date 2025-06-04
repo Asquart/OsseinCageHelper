@@ -2,7 +2,7 @@ AOCH = AOCH or {}
 local AOCH = AOCH
 
 AOCH.name     = "AsquartOsseinCageHelper"
-AOCH.version  = "1.7.5"
+AOCH.version  = "1.7.6"
 AOCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 AOCH.active   = false
 
@@ -67,6 +67,7 @@ AOCH.status = {
   harvesterAlertPlaying = false,
   num_fleshspawn = 0,
   channeler_immune = false,
+  ogrim_charge_alerts = {},
 
   -- Jynorah and Skorkhif
   jynorah_next_portal = 0,
@@ -179,6 +180,7 @@ AOCH.settings = {
   show_jynorah_enfeeblement_swap = true,
   show_jynorah_seeking_surge_alert = true,
   show_jynorah_portal_color = true,
+  show_jynorah_titan_breath = true,
 
   -- Overfiend Kazpian
   show_kazpian_stack_positions = false,
@@ -325,6 +327,8 @@ AOCH.data    = {
   aspect_bolt_3 = 245135,
   aspect_bolt_4 = 239378,
   tail_slam = 235805,
+  valneer_breath_id = 234558,
+  myrinax_breath_id = 234548,
   titanic_leap_ids =
   {
     [233477] = true,
@@ -586,7 +590,12 @@ function AOCH.ClearUIOutOfCombat()
 end
 
 function AOCH.HideAllUI(hide)
-  
+  if AOCH.hasOSI then
+    for alert, _ in pairs(AOCH.status.ogrim_charge_alerts) do
+      OSI.DiscardPositionIcon(alert)
+    end
+    AOCH.status.ogrim_charge_alerts = {}
+  end
   AOCHPurpleAlert:SetHidden(hide)
   AOCHRedAlert:SetHidden(hide)
   AOCHYellowAlert:SetHidden(hide)
@@ -938,9 +947,9 @@ function AOCH.OnResurrectResult(eventCode, targetCharacterName, result, targetDi
 
     if not AOCH.status.jynorah_titanic_clash_ongoing and isDPS and AOCH.savedVariables.show_jynorah_enfeeblement_swap and result == RESURRECT_RESULT_SUCCESS then
     if AOCH.status.jynorah_got_blazing_enfeeblement then
-      CombatAlerts.Alert("", "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      CombatAlerts.Alert(nil, "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
     elseif AOCH.status.jynorah_got_sparking_enfeeblement then
-      CombatAlerts.Alert("", "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      CombatAlerts.Alert(nil, "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
     end
   end
   end

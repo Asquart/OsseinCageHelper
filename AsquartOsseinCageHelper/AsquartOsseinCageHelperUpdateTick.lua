@@ -36,7 +36,7 @@ function AOCH.UpdateTick(gameTimeMs)
 
     --------------------- Abductor Spawn
     if AOCH.savedVariables.show_abductor_spawn and AOCH.status.abductor_spawned and not AOCH.status.abductor_notification_played then
-      CombatAlerts.Alert("", "Abductor Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
+      CombatAlerts.Alert(nil, "Abductor Spawned !", 0xFF0000FF, SOUNDS.CHAMPION_POINTS_COMMITTED, 4000)
       AOCH.status.abductor_notification_played = true
     end
   end
