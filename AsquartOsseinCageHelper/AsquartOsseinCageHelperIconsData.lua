@@ -187,52 +187,54 @@ AOCH.icons_data = {
   {216617,32950,74932}}, -- exit location
 
   jynorah_blue_boss_positions =
-    {{104065,26153,128819}, -- entrance pos
-    {103904,26153,131555}}, -- exit pos
+    {{104571,26153,128885}, -- entrance pos
+    {104560,26153,131493}}, -- exit pos
 
   jynorah_red_boss_positions =
-    {{105128,26153,129011}, -- entrance pos
-    {104982,26153,131490}}, -- exit pos
+    {{105649,26153,128949}, -- entrance pos
+    {105638,26153,131557}}, -- exit pos
+
+  jynorah_exit_position = {105093,26237,133606},
 
   jynorah_blue_healer_positions =
-    {{104399,26153,128117}, -- entrance pos
-    {104153,26153,132292}}, -- exit pos
+    {{104878,26150,128155}, -- entrance pos
+    {104860,26156,132259}}, -- exit pos
 
   jynorah_red_healer_positions =
-    {{104855,26153,128229}, -- entrance pos
-    {104619,26153,132234}}, -- exit pos
+    {{105345,26152,128196}, -- entrance pos
+    {105330,26154,132273}}, -- exit pos
 
   jynorah_blue_dd1_positions =
-    {{103623,26164,128208}, -- entrance pos
-    {103393,26142,132110}}, -- exit pos
+    {{104125,26158,128364}, -- entrance pos
+    {104137,26148,131962}}, -- exit pos
 
   jynorah_blue_dd2_positions =
-    {{103727,26164,127719}, -- entrance pos
-    {103439,26142,132608}}, -- exit pos
+    {{104152,26159,127865}, -- entrance pos
+    {104106,26147,132462}}, -- exit pos
 
   jynorah_blue_dd3_positions =
-    {{104035,26153,128336}, -- entrance pos
-    {103817,26153,132031}}, -- exit pos
+    {{104551,26149,128427}, -- entrance pos
+    {104568,26157,131949}}, -- exit pos
 
   jynorah_blue_dd4_positions =
-    {{104143,26153,127776}, -- entrance pos
-    {103858,26153,132600}}, -- exit pos
+    {{104572,26149,127857}, -- entrance pos
+    {104522,26157,132518}}, -- exit pos
 
   jynorah_red_dd1_positions =
-    {{105540,26153,128594}, -- entrance pos
-    {105342,26153,131952}}, -- exit pos
+    {{106078,26154,128451}, -- entrance pos
+    {106087,26152,132105}}, -- exit pos
 
   jynorah_red_dd2_positions =
-    {{105614,26153,128152}, -- entrance pos
-    {105363,26153,132400}}, -- exit pos
+    {{106084,26154,128003}, -- entrance pos
+    {106040,26152,132551}}, -- exit pos
 
   jynorah_red_dd3_positions =
-    {{105129,26153,128558}, -- entrance pos
-    {104930,26153,131940}}, -- exit pos
+    {{105667,26153,128479}, -- entrance pos
+    {105682,26153,132030}}, -- exit pos
 
   jynorah_red_dd4_positions =
-    {{105223,26153,128014}, -- entrance pos
-    {104959,26153,132491}}, -- exit pos
+    {{105676,26153,127927}, -- entrance pos
+    {105626,26153,132579}}, -- exit pos
 
   kazpian_entrance_stack_pos = {50846,35550,193365},
   kazpian_entrance_left_slayer_pos = {51170,35550,192760},
@@ -311,6 +313,7 @@ AOCH.icons_data = {
   dd_blue_2_texture = "AsquartOsseinCageHelper/icons/dd_blue_2.dds",
   dd_blue_3_texture = "AsquartOsseinCageHelper/icons/dd_blue_3.dds",
   dd_blue_4_texture = "AsquartOsseinCageHelper/icons/dd_blue_4.dds",
+  exit_texture = "AsquartOsseinCageHelper/icons/exit.dds",
 
   -- Overfiend Kazpian
   kazpian_stack_texture = "AsquartOsseinCageHelper/icons/kazpian.dds",

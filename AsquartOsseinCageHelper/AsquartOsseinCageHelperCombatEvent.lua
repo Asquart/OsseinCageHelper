@@ -201,7 +201,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
           local icon = OSI.CreatePositionIcon(
             unitX, unitY, unitZ,
             AOCH.icons_data.ogrim_texture,
-            2 * OSI.GetIconSize())
+            OSI.GetIconSize())
           AOCH.status.ogrim_charge_alerts[icon] = true
           EVENT_MANAGER:RegisterForUpdate(AOCH.name .. "RemoveOgrimIcon", 2000,
                             function()
@@ -509,11 +509,11 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
 
       ------------------------------- Process atronachs and seeking surge
       if AOCH.savedVariables.show_jynorah_seeking_surge_alert and not isTank and not AOCH.status.jynorah_titanic_clash_ongoing and abilityId == AOCH.data.jynorah_seeking_flames_cast then
-        if targetUnitId == AOCH.status.myrinax_id then -------------- Blazing flames spawned
+        if AOCH.status.myrinax_ids[targetUnitId] ~= nil then -------------- Blazing flames spawned
           if not AOCH.status.jynorah_got_blazing_enfeeblement and AOCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
             CombatAlerts.Alert(nil, "Get Seeking Fire", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
-        elseif targetUnitId == AOCH.status.valneer_id then
+        elseif AOCH.status.valneer_ids[targetUnitId] then
           if not AOCH.status.jynorah_got_sparking_enfeeblement and not isTank and AOCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
             CombatAlerts.Alert(nil, "Get Seeking Fire", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end

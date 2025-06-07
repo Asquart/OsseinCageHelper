@@ -372,6 +372,13 @@ function AOCH.SetJynorahStackIcons() --------------------- boss stacks
         AOCH.icons_data.skorknif_stack_texture,
         OSI.GetIconSize()))
   end
+
+  table.insert(AOCH.status.jynorah_stacks_icons, OSI.CreatePositionIcon(
+        AOCH.icons_data.jynorah_exit_position[1],
+        AOCH.icons_data.jynorah_exit_position[2],
+        AOCH.icons_data.jynorah_exit_position[3],
+        AOCH.icons_data.exit_texture,
+        OSI.GetIconSize() * 4))
 end
 
 function AOCH.HideJynorahStackIcons()
