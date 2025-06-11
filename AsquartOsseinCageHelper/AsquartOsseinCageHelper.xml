@@ -77,7 +77,7 @@
           <Anchor point="CENTER"  relativeTo="$(parent)" relativePoint="CENTER" offsetY="-75"/>
       </Label>
       <!-- Skorknif HP counter -->
-      <Label name="$(parent)SkorknifHpCounterLabel" font="ZoFontWinH1" color="e87e15" text="Skorknif HP : 100%" verticalAlignment="CENTER" horizontalAlignment="LEFT"  alpha="0.85">
+      <Label name="$(parent)SkorknifHpCounterLabel" font="ZoFontWinH1" color="e87e15" text="Skorkhif HP : 100%" verticalAlignment="CENTER" horizontalAlignment="LEFT"  alpha="0.85">
           <Dimensions x="600" y="50" />
           <Anchor point="CENTER"  relativeTo="$(parent)" relativePoint="CENTER" offsetY="-125"/>
       </Label>

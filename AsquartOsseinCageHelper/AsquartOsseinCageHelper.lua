@@ -2,7 +2,7 @@ AOCH = AOCH or {}
 local AOCH = AOCH
 
 AOCH.name     = "AsquartOsseinCageHelper"
-AOCH.version  = "1.7.8"
+AOCH.version  = "1.7.9"
 AOCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 AOCH.active   = false
 
@@ -74,6 +74,7 @@ AOCH.status = {
   jynorah_next_curse = 30,
   jynorah_stacks_enabled = false,
   jynorah_curse_markers_enabled = false,
+  jynorah_exit_icon_enabled = false,
   jynorah_titanic_clash_ongoing = false,
   jynorah_titanic_clash_just_started = false,
   jynorah_titanic_clash_just_ended = false,
@@ -88,6 +89,7 @@ AOCH.status = {
   titan_max_hp = 100000000,
   jynorah_stacks_icons = {},
   jynorah_curse_icons = {},
+  jynorah_exit_icon = nil,
   valneer_ids = {},
   myrinax_ids = {},
 
@@ -181,6 +183,8 @@ AOCH.settings = {
   show_jynorah_seeking_surge_alert = true,
   show_jynorah_portal_color = true,
   show_jynorah_titan_breath = true,
+  show_jynorah_exit_icon = true,
+  jynorah_exit_icon_size = 500,
 
   -- Overfiend Kazpian
   show_kazpian_stack_positions = false,

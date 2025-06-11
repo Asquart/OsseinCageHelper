@@ -372,13 +372,6 @@ function AOCH.SetJynorahStackIcons() --------------------- boss stacks
         AOCH.icons_data.skorknif_stack_texture,
         OSI.GetIconSize()))
   end
-
-  table.insert(AOCH.status.jynorah_stacks_icons, OSI.CreatePositionIcon(
-        AOCH.icons_data.jynorah_exit_position[1],
-        AOCH.icons_data.jynorah_exit_position[2],
-        AOCH.icons_data.jynorah_exit_position[3],
-        AOCH.icons_data.exit_texture,
-        500))
 end
 
 function AOCH.HideJynorahStackIcons()
@@ -393,6 +386,39 @@ function AOCH.HideJynorahStackIcons()
     end
     AOCH.status.jynorah_stacks_icons = {}
     AOCH.status.jynorah_stacks_enabled = false
+  end
+end
+
+function AOCH.SetJynorahExitIcon() -------------------- Exit icon
+  if not AOCH.hasOSI() then
+    return
+  end
+  if not AOCH.status.jynorah_exit_icon_enabled then
+    AOCH.status.jynorah_exit_icon_enabled = true
+  else
+    return
+  end
+
+  AOCH.status.jynorah_exit_icon = OSI.CreatePositionIcon(
+        AOCH.icons_data.jynorah_exit_position[1],
+        AOCH.icons_data.jynorah_exit_position[2],
+        AOCH.icons_data.jynorah_exit_position[3],
+        AOCH.icons_data.exit_texture,
+        AOCH.savedVariables.jynorah_exit_icon_size)
+end
+
+function AOCH.HideJynorahExitIcon()
+  if not AOCH.hasOSI() then
+    return
+  end
+  if AOCH.status.jynorah_exit_icon_enabled then
+
+    if AOCH.status.jynorah_exit_icon ~= nil then
+      OSI.DiscardPositionIcon(AOCH.status.jynorah_exit_icon)
+    end
+
+    AOCH.status.jynorah_exit_icon = nil
+    AOCH.status.jynorah_exit_icon_enabled = false
   end
 end
 
@@ -848,6 +874,7 @@ function AOCH.SetTrashIcons()
 
   AOCH.HideJynorahStackIcons()
   AOCH.HideJynorahCurseIcons()
+  AOCH.HideJynorahExitIcon()
 
   AOCH.HideKazpianIcons()
 end
@@ -867,6 +894,7 @@ function AOCH.SetGlobalMiniBossIcons()
 
   AOCH.HideJynorahStackIcons()
   AOCH.HideJynorahCurseIcons()
+  AOCH.HideJynorahExitIcon()
 
   AOCH.HideKazpianIcons()
 end
@@ -890,6 +918,7 @@ function AOCH.SetHallOfFleshcraftIcons()
 
   AOCH.HideJynorahStackIcons()
   AOCH.HideJynorahCurseIcons()
+  AOCH.HideJynorahExitIcon()
 
   AOCH.HideKazpianIcons()
 end
@@ -900,6 +929,9 @@ function AOCH.SetJynorahIcons()
   end
   if AOCH.savedVariables.show_jynorah_curse_positions then
     AOCH.SetJynorahCurseIcons()
+  end
+  if AOCH.savedVariables.show_jynorah_exit_icon then
+    AOCH.SetJynorahExitIcon()
   end
   
   AOCH.HideTrashNumberIcons()
@@ -976,4 +1008,5 @@ function AOCH.SetKazpianIcons()
 
   AOCH.HideJynorahStackIcons()
   AOCH.HideJynorahCurseIcons()
+  AOCH.HideJynorahExitIcon()
 end

@@ -77,7 +77,7 @@ function AOCH.AddonMenu()
 		},
 	{
 		type = "slider",
-		name = "Synergy block time ms",
+		name = string.format("|u40:0::%s|u", "Synergy block time ms"),
 		getFunc = function() return AOCH.savedVariables.carrion_synergy_block_time end,
 		setFunc = function(value) AOCH.savedVariables.carrion_synergy_block_time = value end,
 		min = 1000,
@@ -380,7 +380,37 @@ function AOCH.AddonMenu()
 					AOCH.HideJynorahStackIcons()
 				end
 			end,
-			},
+		},
+		{
+			type    = "checkbox",
+			name    = "Show Exit icon",
+			default = true,
+			getFunc = function() return AOCH.savedVariables.show_jynorah_exit_icon   end,
+			setFunc = function(newValue)
+				AOCH.savedVariables.show_jynorah_exit_icon   = newValue
+				if not newValue then
+					AOCH.HideJynorahExitIcon()
+				end
+			end,
+		},
+		{
+		type = "slider",
+		name = string.format("|u40:0::%s|u", "Exit icon size"),
+		getFunc = function() return AOCH.savedVariables.jynorah_exit_icon_size end,
+		setFunc = function(value)
+				AOCH.savedVariables.jynorah_exit_icon_size = value
+				if AOCH.status.jynorah_exit_icon_enabled then
+					AOCH.HideJynorahExitIcon()
+					AOCH.SetJynorahExitIcon()
+				end
+			end,
+		min = 100,
+		max = 1000,
+		default = 500,
+		step = 50,
+		width = "half",
+		disabled = function() return not AOCH.savedVariables.show_jynorah_exit_icon end
+		},
 		{
 			type    = "checkbox",
 			name    = "Show curse positions (HM)",
