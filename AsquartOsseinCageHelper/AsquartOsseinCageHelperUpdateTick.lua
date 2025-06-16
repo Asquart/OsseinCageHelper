@@ -167,7 +167,7 @@ function AOCH.UpdateTick(gameTimeMs)
       if AOCHStatusSkorknifHpCounterLabel:IsHidden() then
         AOCHStatusSkorknifHpCounterLabel:SetHidden(false)
       end
-      AOCHStatusSkorknifHpCounterLabel:SetText("Skorknif HP: " .. txtPercentNum .. "%")
+      AOCHStatusSkorknifHpCounterLabel:SetText("Skorkhif HP: " .. txtPercentNum .. "%")
 
       if 0.354 < totalBossPercent and totalBossPercent < 0.754 then
         if AOCH.status.skorknif_lost_portal then

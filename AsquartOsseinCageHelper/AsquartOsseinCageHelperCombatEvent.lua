@@ -407,7 +407,7 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       AOCHYellowAlertLabel:SetHidden(false)
       if AOCH.status.current_jyronah_percent > AOCH.status.current_skorknif_percent then
         AOCHYellowAlertLabel:SetColor(0.909,0.494,0.082,0.85)
-        AOCHYellowAlertLabel:SetText("Skorknif & Valneer lose")
+        AOCHYellowAlertLabel:SetText("Skorkhif & Valneer lose")
         AOCH.status.skorknif_lost_portal = true
       else
         AOCHYellowAlertLabel:SetColor(0.141,0.141,0.788,0.85)
