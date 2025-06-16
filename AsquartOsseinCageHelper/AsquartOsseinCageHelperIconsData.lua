@@ -187,53 +187,53 @@ AOCH.icons_data = {
   {216617,32950,74932}}, -- exit location
 
   jynorah_blue_boss_positions =
-    {{104571,26153,128885}, -- entrance pos
+    {{104556,26153,129135}, -- entrance pos
     {104560,26153,131493}}, -- exit pos
 
   jynorah_red_boss_positions =
-    {{105649,26153,128949}, -- entrance pos
+    {{105634,26153,129199}, -- entrance pos
     {105638,26153,131557}}, -- exit pos
 
   jynorah_exit_position = {105093,26237,133606},
 
   jynorah_blue_healer_positions =
-    {{104878,26150,128155}, -- entrance pos
+    {{104863,26150,128405}, -- entrance pos
     {104860,26156,132259}}, -- exit pos
 
   jynorah_red_healer_positions =
-    {{105345,26152,128196}, -- entrance pos
+    {{105330,26152,128446}, -- entrance pos
     {105330,26154,132273}}, -- exit pos
 
   jynorah_blue_dd1_positions =
-    {{104125,26158,128364}, -- entrance pos
+    {{104110,26157,128614}, -- entrance pos
     {104137,26148,131962}}, -- exit pos
 
   jynorah_blue_dd2_positions =
-    {{104152,26159,127865}, -- entrance pos
+    {{104137,26158,128115}, -- entrance pos
     {104106,26147,132462}}, -- exit pos
 
   jynorah_blue_dd3_positions =
-    {{104551,26149,128427}, -- entrance pos
+    {{104536,26150,128677}, -- entrance pos
     {104568,26157,131949}}, -- exit pos
 
   jynorah_blue_dd4_positions =
-    {{104572,26149,127857}, -- entrance pos
+    {{104557,26149,128107}, -- entrance pos
     {104522,26157,132518}}, -- exit pos
 
   jynorah_red_dd1_positions =
-    {{106078,26154,128451}, -- entrance pos
+    {{106063,26154,128701}, -- entrance pos
     {106087,26152,132105}}, -- exit pos
 
   jynorah_red_dd2_positions =
-    {{106084,26154,128003}, -- entrance pos
+    {{106069,26154,128253}, -- entrance pos
     {106040,26152,132551}}, -- exit pos
 
   jynorah_red_dd3_positions =
-    {{105667,26153,128479}, -- entrance pos
+    {{105652,26153,128729}, -- entrance pos
     {105682,26153,132030}}, -- exit pos
 
   jynorah_red_dd4_positions =
-    {{105676,26153,127927}, -- entrance pos
+    {{105661,26153,128177}, -- entrance pos
     {105626,26153,132579}}, -- exit pos
 
   kazpian_entrance_stack_pos = {50846,35550,193365},
