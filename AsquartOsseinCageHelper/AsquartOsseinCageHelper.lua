@@ -2,7 +2,7 @@ AOCH = AOCH or {}
 local AOCH = AOCH
 
 AOCH.name     = "AsquartOsseinCageHelper"
-AOCH.version  = "1.7.9"
+AOCH.version  = "1.8"
 AOCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 AOCH.active   = false
 
@@ -90,6 +90,8 @@ AOCH.status = {
   jynorah_stacks_icons = {},
   jynorah_curse_icons = {},
   jynorah_exit_icon = nil,
+  jynorah_lost_portal = false,
+  skorknif_lost_portal = false,
   valneer_ids = {},
   myrinax_ids = {},
 
@@ -467,7 +469,7 @@ end
 
 function AOCH.DeathState(event, unitTag, isDead)
 
-  if unitTag == "player" and not isDead and not (IsUnitInCombat("boss1") or IsUnitInCombat("boss2") or IsUnitInCombat("boss3") or IsUnitInCombat("boss4") or IsUnitInCombat("boss5") or IsUnitInCombat("boss6")) then
+  if unitTag == "player" and not isDead and not IsUnitInCombat("player") then
     AOCH.ClearUIOutOfCombat()
   end
 end
@@ -481,6 +483,18 @@ function AOCH.UpdateFleshspawnCounter()
     AOCHStatusFleshSpawnCounterLabelValue:SetColor(0.78, 0.513, 0.086)
   else
     AOCHStatusFleshSpawnCounterLabelValue:SetColor(0.768, 0.086, 0.086)
+  end
+end
+
+function AOCH.UpdateCarrionCounter()
+  local txtNumStacks = tostring(AOCH.status.carrion_stacks_num)
+  AOCHStatusBossCarrionTrackerLabelValue:SetText(txtNumStacks)
+  if AOCH.status.carrion_stacks_num < 3 then
+    AOCHStatusBossCarrionTrackerLabelValue:SetColor(0.125, 0.788, 0.078)
+  elseif AOCH.status.carrion_stacks_num < 5 then
+    AOCHStatusBossCarrionTrackerLabelValue:SetColor(0.78, 0.513, 0.086)
+  else
+    AOCHStatusBossCarrionTrackerLabelValue:SetColor(0.768, 0.086, 0.086)
   end
 end
 
@@ -551,6 +565,8 @@ function AOCH.CombatState(eventCode, inCombat)
       AOCH.status.reflective_scales_valneer_playing = false
       AOCH.status.jynorah_blazing_surge_stacks = 0
       AOCH.status.jynorah_sparking_surge_stacks = 0
+      AOCH.status.jynorah_lost_portal = false
+      AOCH.status.skorknif_lost_portal = false
       AOCH.status.valneer_ids = {}
       AOCH.status.myrinax_ids = {}
       AOCH.status.titan_max_hp = AOCH.GetTitanHP()
@@ -622,9 +638,11 @@ function AOCH.HideAllUI(hide)
 
   -- Jynorah HP counter
   AOCHStatusJynorahHpCounterLabel:SetHidden(hide)
+  AOCHStatusJynorahDamageIcon:SetHidden(hide)
 
   -- Skorknif HP counter
   AOCHStatusSkorknifHpCounterLabel:SetHidden(hide)
+  AOCHStatusSkorknifDamageIcon:SetHidden(hide)
 
   AOCHStatusValneerHpCounterLabel:SetHidden(hide)
   AOCHStatusMyrinaxHpCounterLabel:SetHidden(hide)
@@ -748,6 +766,8 @@ function AOCH.BossesChanged()
     AOCH.status.enfeeblement_swapped_while_dead = false
     AOCH.status.jynorah_blazing_surge_stacks = 0
     AOCH.status.jynorah_sparking_surge_stacks = 0
+    AOCH.status.jynorah_lost_portal = false
+    AOCH.status.skorknif_lost_portal = false
     AOCH.status.valneer_ids = {}
     AOCH.status.myrinax_ids = {}
 
@@ -888,21 +908,23 @@ end
 
 function AOCH.AchievementAwarded(_, _, _, id, _)
   if id == AOCH.data.trifecta_achievement_id then
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_LARGE_TEXT, SOUNDS.LEVEL_UP)
-    messageParams:SetQueuedOrder(10)
-    messageParams:SetText(GetString(AOCH_Tri1))
-    messageParams:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_POI_DISCOVERED)
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+    local messageParams1 = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_LARGE_TEXT, SOUNDS.LEVEL_UP)
+    messageParams1:SetQueuedOrder(11)
+    messageParams1:SetText(GetString(AOCH_Tri1))
+    messageParams1:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_POI_DISCOVERED)
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams1)
 
-    messageParams:SetQueuedOrder(11)
-    messageParams:SetText(GetString(AOCH_Tri2))
-    messageParams:SetSound(SOUNDS.ENLIGHTENED_STATE_GAINED)
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+    local messageParams2 = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_LARGE_TEXT, SOUNDS.LEVEL_UP)
+    messageParams2:SetQueuedOrder(12)
+    messageParams2:SetText(GetString(AOCH_Tri2))
+    messageParams2:SetSound(SOUNDS.ENLIGHTENED_STATE_GAINED)
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams2)
 
-    messageParams:SetQueuedOrder(12)
-    messageParams:SetText(GetString(AOCH_Tri3))
-    messageParams:SetSound(SOUNDS.ENLIGHTENED_STATE_LOST)
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+    local messageParams3 = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_LARGE_TEXT, SOUNDS.LEVEL_UP)
+    messageParams3:SetQueuedOrder(13)
+    messageParams3:SetText(GetString(AOCH_Tri3))
+    messageParams3:SetSound(SOUNDS.ENLIGHTENED_STATE_LOST)
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams3)
   end
 end
 
@@ -950,12 +972,12 @@ function AOCH.OnResurrectResult(eventCode, targetCharacterName, result, targetDi
     AOCH.status.enfeeblement_swapped_while_dead = false
 
     if not AOCH.status.jynorah_titanic_clash_ongoing and isDPS and AOCH.savedVariables.show_jynorah_enfeeblement_swap and result == RESURRECT_RESULT_SUCCESS then
-    if AOCH.status.jynorah_got_blazing_enfeeblement then
-      CombatAlerts.Alert(nil, "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
-    elseif AOCH.status.jynorah_got_sparking_enfeeblement then
-      CombatAlerts.Alert(nil, "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      if AOCH.status.jynorah_got_blazing_enfeeblement then
+        CombatAlerts.Alert(nil, "Go to Blue Boss", 0x03AFFF, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      elseif AOCH.status.jynorah_got_sparking_enfeeblement then
+        CombatAlerts.Alert(nil, "Go to Red Boss", 0xCC3B0E, SOUNDS.CHAMPION_POINTS_COMMITTED, 3000)
+      end
     end
-  end
   end
 end
 
@@ -1056,6 +1078,10 @@ function AOCH.PlayerActivated()
   -- Trigger initial "changes," in case a reload was done while at Lokk
   AOCH.BossesChanged()
   AOCH.OnDifficultyChanged()
+
+  -- Set 2nd boss damage textures
+  AOCHStatusJynorahDamageIcon:SetTexture(AOCH.icons_data.stack_texture)
+  AOCHStatusSkorknifDamageIcon:SetTexture(AOCH.icons_data.stack_texture)
 
   -- Ticks
   EVENT_MANAGER:RegisterForUpdate(AOCH.name.."UpdateTick", 

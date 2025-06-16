@@ -3,8 +3,8 @@
 ## Author: |c24abfe@Asquart|r & |cbb00ff@Margorius|r
 ## DependsOn: CombatAlerts>=201001 LibAddonMenu-2.0>=40
 ## OptionalDependsOn: OdySupportIcons
-## Version: 1.7.9
-## AddOnVersion: 179
+## Version: 1.8
+## AddOnVersion: 18
 ## APIVersion: 101046
 ## SavedVariables: AsquartOsseinCageHelperSavedVariables
 

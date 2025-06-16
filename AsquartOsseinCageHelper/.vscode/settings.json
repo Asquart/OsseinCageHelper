@@ -175,6 +175,8 @@
         "AOCH_Tri3",
         "AOCH_InitMSG",
         "AOCH_OsiMSG",
-        "AOCH_LANG"
+        "AOCH_LANG",
+        "AOCHStatusSkorknifDamageIcon",
+        "AOCHStatusJynorahDamageIcon"
     ]
 }

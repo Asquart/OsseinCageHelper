@@ -71,11 +71,21 @@
           <Dimensions x="600" y="50" />
           <Anchor point="CENTER"  relativeTo="$(parent)" relativePoint="CENTER" offsetY="-100"/>
       </Label>
+      <!-- Jynorah Damage Icon -->
+      <Texture name="$(parent)JynorahDamageIcon" tier="MEDIUM">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="-125" offsetX="-340"/>
+          <Dimensions x="50" y="50" />
+      </Texture>
       <!-- Jynorah HP counter -->
       <Label name="$(parent)JynorahHpCounterLabel" font="ZoFontWinH1" color="2424c9" text="Jynorah HP : 100%" verticalAlignment="CENTER" horizontalAlignment="LEFT"  alpha="0.85">
           <Dimensions x="600" y="50" />
           <Anchor point="CENTER"  relativeTo="$(parent)" relativePoint="CENTER" offsetY="-75"/>
       </Label>
+      <!-- Skorknif Damage Icon -->
+      <Texture name="$(parent)SkorknifDamageIcon" tier="MEDIUM">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="-125" offsetX="-340"/>
+          <Dimensions x="50" y="50" />
+      </Texture>
       <!-- Skorknif HP counter -->
       <Label name="$(parent)SkorknifHpCounterLabel" font="ZoFontWinH1" color="e87e15" text="Skorkhif HP : 100%" verticalAlignment="CENTER" horizontalAlignment="LEFT"  alpha="0.85">
           <Dimensions x="600" y="50" />

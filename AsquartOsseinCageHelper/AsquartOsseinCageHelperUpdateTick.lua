@@ -49,7 +49,7 @@ function AOCH.UpdateTick(gameTimeMs)
         end
       end
       AOCH.status.carrion_stacks_num = maxStacks
-      AOCHStatusBossCarrionTrackerLabelValue:SetText(tostring(maxStacks))
+      AOCH.UpdateCarrionCounter()
   end
 
   --------------------------------   Genda Relvel
@@ -168,6 +168,19 @@ function AOCH.UpdateTick(gameTimeMs)
         AOCHStatusSkorknifHpCounterLabel:SetHidden(false)
       end
       AOCHStatusSkorknifHpCounterLabel:SetText("Skorknif HP: " .. txtPercentNum .. "%")
+
+      if 0.354 < totalBossPercent and totalBossPercent < 0.754 then
+        if AOCH.status.skorknif_lost_portal then
+          AOCHStatusJynorahDamageIcon:SetHidden(false)
+        end
+        if AOCH.status.jynorah_lost_portal then
+          AOCHStatusSkorknifDamageIcon:SetHidden(false)
+        end
+      else
+        AOCHStatusJynorahDamageIcon:SetHidden(true)
+        AOCHStatusSkorknifDamageIcon:SetHidden(true)
+      end
+
     end
 
     ----------------- portal countdown
