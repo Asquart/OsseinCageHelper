@@ -377,8 +377,6 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       AOCH.status.jynorah_titanic_clash_just_started = true
       AOCH.status.blazing_atronachs_alive = {}
       AOCH.status.sparking_atronachs_alive = {}
-      AOCH.status.jynorah_blazing_surge_stacks = 0
-      AOCH.status.jynorah_sparking_surge_stacks = 0
 
       if AOCH.savedVariables.show_boss_carrion_stacks then
         AOCHStatusBossCarrionTrackerLabel:SetHidden(false)
@@ -429,9 +427,6 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       and (string.match(targetName, AOCH.data.jynorah_name) ~= nil or string.match(targetName, AOCH.data.skorknif_name) ~= nil) then
 
       AOCH.status.jynorah_titanic_clash_ongoing = false
-
-      AOCH.status.jynorah_blazing_surge_stacks = 0
-      AOCH.status.jynorah_sparking_surge_stacks = 0
 
       if isDPS and AOCH.savedVariables.show_jynorah_enfeeblement_swap then
         if AOCH.status.jynorah_got_blazing_enfeeblement then
@@ -512,11 +507,11 @@ function AOCH.CombatEvent(eventCode, result, isError, abilityName, abilityGraphi
       ------------------------------- Process atronachs and seeking surge
       if AOCH.savedVariables.show_jynorah_seeking_surge_alert and not isTank and not AOCH.status.jynorah_titanic_clash_ongoing and abilityId == AOCH.data.jynorah_seeking_flames_cast then
         if AOCH.status.myrinax_ids[targetUnitId] ~= nil then -------------- Blazing flames spawned
-          if not AOCH.status.jynorah_got_blazing_enfeeblement and AOCH.status.jynorah_blazing_surge_stacks < 4 then ---------------- play alert if applicable
+          if not AOCH.status.jynorah_got_blazing_enfeeblement then ---------------- play alert if applicable
             CombatAlerts.Alert(nil, "Get Seeking Fire", 0xFF5733D9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
         elseif AOCH.status.valneer_ids[targetUnitId] then
-          if not AOCH.status.jynorah_got_sparking_enfeeblement and not isTank and AOCH.status.jynorah_sparking_surge_stacks < 4 then ---------------- play alert if applicable
+          if not AOCH.status.jynorah_got_sparking_enfeeblement then ---------------- play alert if applicable
             CombatAlerts.Alert(nil, "Get Seeking Fire", 0x3399FFD9, SOUNDS.CHAMPION_POINTS_COMMITTED, 2500)
           end
         end

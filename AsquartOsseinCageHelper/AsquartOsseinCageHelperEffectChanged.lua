@@ -144,13 +144,6 @@ function AOCH.EffectChanged(eventCode, changeType, effectSlot, effectName, unitT
         end
       end
       
-          --------------------- Gather seeking surge stacks
-      if changeType == EFFECT_RESULT_GAINED and abilityId == AOCH.data.jynorah_seeking_forge_fire_debuff_id and unitTag == "player" then
-        AOCH.data.jynorah_blazing_surge_stacks = AOCH.data.jynorah_blazing_surge_stacks + 1
-      end
-      if changeType == EFFECT_RESULT_GAINED and abilityId == AOCH.data.jynorah_seeking_spark_surge_debuff_id and unitTag == "player" then
-        AOCH.data.jynorah_sparking_surge_stacks = AOCH.data.jynorah_sparking_surge_stacks + 1
-      end
     end
 
   end

@@ -2,7 +2,7 @@ AOCH = AOCH or {}
 local AOCH = AOCH
 
 AOCH.name     = "AsquartOsseinCageHelper"
-AOCH.version  = "1.8.3"
+AOCH.version  = "1.8.4"
 AOCH.author   = "|c24abfe@Asquart|r & |cbb00ff@Margorius|r"
 AOCH.active   = false
 
@@ -84,8 +84,6 @@ AOCH.status = {
   enfeeblement_swapped_while_dead = false,
   reflective_scales_valneer_playing = false,
   reflective_scales_myrinax_playing = false,
-  jynorah_blazing_surge_stacks = 0,
-  jynorah_sparking_surge_stacks = 0,
   titan_max_hp = 100000000,
   jynorah_stacks_icons = {},
   jynorah_curse_icons = {},
@@ -563,8 +561,6 @@ function AOCH.CombatState(eventCode, inCombat)
       AOCH.status.enfeeblement_swapped_while_dead = false
       AOCH.status.reflective_scales_myrinax_playing = false
       AOCH.status.reflective_scales_valneer_playing = false
-      AOCH.status.jynorah_blazing_surge_stacks = 0
-      AOCH.status.jynorah_sparking_surge_stacks = 0
       AOCH.status.jynorah_lost_portal = false
       AOCH.status.skorknif_lost_portal = false
       AOCH.status.valneer_ids = {}
@@ -764,8 +760,6 @@ function AOCH.BossesChanged()
     AOCH.status.jynorah_got_blazing_enfeeblement = false
     AOCH.status.jynorah_got_sparking_enfeeblement = false
     AOCH.status.enfeeblement_swapped_while_dead = false
-    AOCH.status.jynorah_blazing_surge_stacks = 0
-    AOCH.status.jynorah_sparking_surge_stacks = 0
     AOCH.status.jynorah_lost_portal = false
     AOCH.status.skorknif_lost_portal = false
     AOCH.status.valneer_ids = {}
